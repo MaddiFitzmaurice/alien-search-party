@@ -10,12 +10,15 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector3 vectorSpeed;
 
+    private Collider beam;
+
     public float speed;
     public float spinSpeed;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        beam = GetComponentInChildren<CapsuleCollider>();
         vectorSpeed = new Vector3(0, spinSpeed, 0);
     }
 
@@ -37,4 +40,13 @@ public class PlayerController : MonoBehaviour
         Quaternion deltaRotation = Quaternion.Euler(vectorSpeed * Time.fixedDeltaTime);
         rb.MoveRotation(rb.rotation * deltaRotation);
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Alien"))
+        {
+            other.GetComponent<AlienMove>().isUnderBeam = true;
+        }
+    }
+
 }

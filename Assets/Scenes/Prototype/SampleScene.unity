@@ -233,15 +233,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4a230f703a0f73d439e4c7fc9ffc96db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4a230f703a0f73d439e4c7fc9ffc96db, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.39
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4a230f703a0f73d439e4c7fc9ffc96db, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.90000004
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4a230f703a0f73d439e4c7fc9ffc96db, type: 3}
       propertyPath: m_LocalRotation.w
@@ -320,6 +320,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 50
   spinSpeed: 100
+--- !u!136 &142255163
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142255159}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: -1, z: 0}
 --- !u!1 &240353063
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,7 +642,7 @@ GameObject:
   - component: {fileID: 699358795}
   m_Layer: 0
   m_Name: Alien_Green_1
-  m_TagString: Untagged
+  m_TagString: Alien
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -747,6 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1899701807}
+  isUnderBeam: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

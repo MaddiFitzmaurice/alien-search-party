@@ -10,13 +10,22 @@ public class AlienMove : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
 
+    public bool isUnderBeam;
+
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        isUnderBeam = false;
     }
 
     void Update()
     {
-        navMeshAgent.destination = target.position;
+        if (!isUnderBeam) 
+        {
+            navMeshAgent.destination = target.position;
+        }
+        else {
+            navMeshAgent.isStopped = true;
+        }
     }
 }
