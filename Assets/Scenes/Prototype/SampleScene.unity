@@ -763,7 +763,7 @@ MonoBehaviour:
   target: {fileID: 1899701807}
   isUnderBeam: 0
   abductTime: 3
-  resistTime: 0
+  resistTime: 1
   speed: 0.5
   resistSpeed: 0.1
 --- !u!1 &705507993

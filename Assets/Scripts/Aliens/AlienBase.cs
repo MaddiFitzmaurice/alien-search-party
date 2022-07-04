@@ -20,26 +20,6 @@ public abstract class AlienBase : MonoBehaviour
         timer = 0;
     }
 
-    void Update()
-    {
-        if (!isUnderBeam) 
-        {
-            navMeshAgent.isStopped = false;
-        }
-        else 
-        {
-            navMeshAgent.isStopped = true;
-            if (timer > 5) 
-            {
-                Destroy();
-            }
-            else 
-            {
-                timer += Time.deltaTime;
-            }
-        }
-    }
-
     protected abstract void Move();
 
     protected abstract void Abduct();

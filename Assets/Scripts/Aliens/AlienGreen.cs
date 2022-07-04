@@ -18,6 +18,7 @@ public class AlienGreen : AlienBase
         if (!isUnderBeam)
         {
             Move();
+            timer = 0;
         }
         else
         {
@@ -25,9 +26,13 @@ public class AlienGreen : AlienBase
             {
                 Resist();
             }
-            else if (timer < resistTime + abductTime)
+            else if (timer > resistTime && timer < resistTime + abductTime)
             {
                 Abduct();
+            }
+            else 
+            {
+                Destroy();
             }
 
             timer += Time.deltaTime;
