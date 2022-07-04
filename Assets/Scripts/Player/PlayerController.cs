@@ -49,4 +49,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Alien"))
+        {
+            AlienMove alien = other.GetComponent<AlienMove>();
+            if (alien.time < 5)
+            {
+                alien.isUnderBeam = false;
+                alien.time = 0;
+            }
+        }
+    }
+
 }
