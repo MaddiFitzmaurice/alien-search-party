@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Alien"))
         {
-            other.GetComponent<AlienMove>().isUnderBeam = true;
+            other.GetComponent<AlienBase>().isUnderBeam = true;
         }
     }
 
@@ -53,12 +53,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Alien"))
         {
-            AlienMove alien = other.GetComponent<AlienMove>();
-            if (alien.time < 5)
-            {
-                alien.isUnderBeam = false;
-                alien.time = 0;
-            }
+            other.GetComponent<AlienBase>().isUnderBeam = false;
         }
     }
 
