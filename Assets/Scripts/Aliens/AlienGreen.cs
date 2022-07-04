@@ -45,11 +45,6 @@ public class AlienGreen : AlienBase
         navMeshAgent.speed = speed;
     }
 
-    protected override void Abduct()
-    {
-        navMeshAgent.isStopped = true;
-    }
-
     private void Resist()
     {
         navMeshAgent.speed = resistSpeed;

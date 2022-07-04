@@ -2,17 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlienGrey : MonoBehaviour
+public class AlienGrey : AlienBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+     [SerializeField]
+    private int abductTime;
+    [SerializeField]
+    private float speed;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (!isUnderBeam)
+        {
+            Move();
+            timer = 0;
+        }
+        else
+        {
+            if (timer < abductTime)
+            {
+                Abduct();
+            }
+            else 
+            {
+                Destroy();
+            }
+
+            timer += Time.deltaTime;
+        }
+    }
+
+    protected override void Move()
+    {
+        navMeshAgent.isStopped = false;
+        navMeshAgent.speed = speed;
     }
 }

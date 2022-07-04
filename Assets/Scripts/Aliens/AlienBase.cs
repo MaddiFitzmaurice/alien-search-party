@@ -22,7 +22,10 @@ public abstract class AlienBase : MonoBehaviour
 
     protected abstract void Move();
 
-    protected abstract void Abduct();
+    protected void Abduct()
+    {
+        navMeshAgent.isStopped = true;
+    }
 
     protected void Destroy()
     {
