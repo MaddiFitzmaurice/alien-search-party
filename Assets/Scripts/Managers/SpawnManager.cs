@@ -10,12 +10,12 @@ public class SpawnManager : MonoBehaviour
 
     public Transform[] alienGroupings;
 
+    public Transform[] spawnPoints;
     public Transform[] farms;
     public Transform[] towns;
 
     // List of pooled Aliens
-    private List<GameObject> aliensGreenList;
-    private List<GameObject> aliensGreyList;
+    private List<GameObject>[] aliensList;
 
     enum AlienType {Green, Grey};
 
@@ -27,8 +27,9 @@ public class SpawnManager : MonoBehaviour
 
     void CreateAliens()
     {
-        aliensGreenList = SetupAliens(AlienType.Green, amountAliensGreen, alienPrefabs[(int)AlienType.Green], alienGroupings[(int)AlienType.Green]);
-        aliensGreyList = SetupAliens(AlienType.Grey, amountAliensGrey, alienPrefabs[(int)AlienType.Grey], alienGroupings[(int)AlienType.Grey]);
+        aliensList = new List<GameObject>[2];
+        aliensList[(int)AlienType.Green] = SetupAliens(AlienType.Green, amountAliensGreen, alienPrefabs[(int)AlienType.Green], alienGroupings[(int)AlienType.Green]);
+        aliensList[(int)AlienType.Grey] = SetupAliens(AlienType.Grey, amountAliensGrey, alienPrefabs[(int)AlienType.Grey], alienGroupings[(int)AlienType.Grey]);
     }
 
     // Helper function to setup alien object pooling for different types
@@ -42,6 +43,42 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnAliens()
     {
+        int rndType = RandomSpawnChance();
+        GameObject alien = ObjectPooler.GetPooledObject(aliensList[rndType]);
 
+        Transform destination;
+
+        // If alien spawned is Green, send to a random farm
+        if (rndType == (int)AlienType.Green)
+        {
+            destination = farms[Random.Range(0, farms.Length)];
+        }
+        // Else if alien spawned is Grey, send to a random town
+        else
+        {
+            destination = towns[Random.Range(0, towns.Length)];
+        }
+
+        // Set spawned alien's destination
+        alien.GetComponent<AlienBase>().target = destination;
+
+        alien.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+
+        alien.SetActive(true);
+    }
+
+    int RandomSpawnChance()
+    {
+        int rnd = Random.Range(1, 6);
+
+        if (rnd != 5)
+        {
+            return 0;
+        }
+
+        else 
+        {
+            return 1;
+        }
     }
 }

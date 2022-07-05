@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public abstract class AlienBase : MonoBehaviour
 {
     [SerializeField]
-    protected Transform target;
+    public Transform target;
     protected NavMeshAgent navMeshAgent;
     protected float timer;
 
@@ -26,9 +26,10 @@ public abstract class AlienBase : MonoBehaviour
     {
         navMeshAgent.isStopped = true;
     }
-
+    
     protected void Destroy()
     {
+        isUnderBeam = false;
         gameObject.SetActive(false);
     }
 }
