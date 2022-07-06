@@ -12,10 +12,10 @@ public abstract class AlienBase : MonoBehaviour
 
     public bool isUnderBeam;
 
-    protected void Start()
+    protected void Awake()
     {
+        navMeshAgent = new NavMeshAgent();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.destination = target.position;
         isUnderBeam = false;
         timer = 0;
     }
@@ -29,8 +29,18 @@ public abstract class AlienBase : MonoBehaviour
     
     protected void Destroy()
     {
-        isUnderBeam = false;
         gameObject.SetActive(false);
     }
+
+    public void Reset(Transform _spawnPoint, Transform _destination)
+    {
+        gameObject.transform.position = _spawnPoint.position;
+        gameObject.SetActive(true);
+        navMeshAgent.SetDestination(_destination.position);
+        isUnderBeam = false;
+        navMeshAgent.isStopped = false;
+        timer = 0;
+    }
+
 }
 

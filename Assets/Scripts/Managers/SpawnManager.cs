@@ -43,28 +43,31 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnAliens()
     {
+        // Grab an alien type based on chance
         int rndType = RandomSpawnChance();
         GameObject alien = ObjectPooler.GetPooledObject(aliensList[rndType]);
 
-        Transform destination;
-
-        // If alien spawned is Green, send to a random farm
-        if (rndType == (int)AlienType.Green)
+        // Make sure alien is available from the pool
+        if (alien)
         {
-            destination = farms[Random.Range(0, farms.Length)];
+            Debug.Log(alien);
+            // Determine alien's destination
+            Transform destination;
+
+            // If alien spawned is Green, send to a random farm
+            if (rndType == (int)AlienType.Green)
+            {
+                destination = farms[Random.Range(0, farms.Length)];
+            }
+            // Else if alien spawned is Grey, send to a random town
+            else
+            {
+                destination = towns[Random.Range(0, towns.Length)];
+            }
+
+            // Reset alien and spawn
+            alien.GetComponent<AlienBase>().Reset(spawnPoints[Random.Range(0, spawnPoints.Length)], destination);
         }
-        // Else if alien spawned is Grey, send to a random town
-        else
-        {
-            destination = towns[Random.Range(0, towns.Length)];
-        }
-
-        // Set spawned alien's destination
-        alien.GetComponent<AlienBase>().target = destination;
-
-        alien.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
-
-        alien.SetActive(true);
     }
 
     int RandomSpawnChance()
