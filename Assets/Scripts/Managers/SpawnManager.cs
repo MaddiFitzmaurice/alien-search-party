@@ -6,6 +6,8 @@ public class SpawnManager : MonoBehaviour
 {
     public int amountAliensGreen;
     public int amountAliensGrey;
+
+    public float spawnTime;
     public GameObject[] alienPrefabs;
 
     public Transform[] alienGroupings;
@@ -22,7 +24,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         CreateAliens();
-        InvokeRepeating("SpawnAliens", 1.0f, 5.0f);
+        InvokeRepeating("SpawnAliens", 1.0f, spawnTime);
     }
 
     void CreateAliens()
@@ -65,7 +67,7 @@ public class SpawnManager : MonoBehaviour
                 destination = towns[Random.Range(0, towns.Length)];
             }
 
-            // Reset alien and spawn
+            // Reset alien parameters and spawn
             alien.GetComponent<AlienBase>().Reset(spawnPoints[Random.Range(0, spawnPoints.Length)], destination);
         }
     }

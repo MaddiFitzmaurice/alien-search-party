@@ -5,18 +5,22 @@ using UnityEngine.AI;
 
 public abstract class AlienBase : MonoBehaviour
 {
-    [SerializeField]
-    public Transform target;
     protected NavMeshAgent navMeshAgent;
     protected float timer;
+    
+    // If Alien has reached target
+    public bool targetReached;
 
+    // If Alien is under player's UFO abduction beam
     public bool isUnderBeam;
+
+    public float detectionTime;
 
     protected void Awake()
     {
-        navMeshAgent = new NavMeshAgent();
         navMeshAgent = GetComponent<NavMeshAgent>();
         isUnderBeam = false;
+        targetReached = false;
         timer = 0;
     }
 
@@ -25,6 +29,16 @@ public abstract class AlienBase : MonoBehaviour
     protected void Abduct()
     {
         navMeshAgent.isStopped = true;
+    }
+
+    protected void ReachedTarget()
+    {
+        Invoke("Destroy", detectionTime);
+    }
+
+    protected void OnDisable()
+    {
+        CancelInvoke();
     }
     
     protected void Destroy()
@@ -38,9 +52,9 @@ public abstract class AlienBase : MonoBehaviour
         gameObject.SetActive(true);
         navMeshAgent.SetDestination(_destination.position);
         isUnderBeam = false;
+        targetReached = false;
         navMeshAgent.isStopped = false;
         timer = 0;
     }
-
 }
 

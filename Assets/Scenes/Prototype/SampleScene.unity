@@ -1620,6 +1620,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amountAliensGreen: 10
   amountAliensGrey: 5
+  spawnTime: 3
   alienPrefabs:
   - {fileID: 4979233854745071068, guid: f2b5f232a0df3cf4c8460def5cae5347, type: 3}
   - {fileID: 5234492701554529564, guid: 908a26bc7f28e574daaaf06ace209358, type: 3}

@@ -13,8 +13,19 @@ public class AlienGrey : AlienBase
     {
         if (!isUnderBeam)
         {
-            Move();
-            timer = 0;
+            if (!targetReached)
+            {
+                if (navMeshAgent.remainingDistance < 0.5f)
+                {
+                    targetReached = true;
+                    ReachedTarget();
+                }
+                else 
+                {
+                    Move();
+                    timer = 0;
+                }
+            }
         }
         else
         {

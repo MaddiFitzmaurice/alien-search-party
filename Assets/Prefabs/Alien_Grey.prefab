@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5234492701554529567}
   - component: {fileID: 5234492701554529566}
   - component: {fileID: 5234492701554529565}
-  - component: {fileID: 5234492701554529553}
   - component: {fileID: 5234492701554529554}
+  - component: {fileID: 5234492701554529553}
   m_Layer: 0
   m_Name: Alien_Grey
   m_TagString: Alien
@@ -100,22 +100,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &5234492701554529553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5234492701554529564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eb4e7aac6bbf60409d7ce63c9500f72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  isUnderBeam: 0
-  abductTime: 2
-  speed: 1
 --- !u!195 &5234492701554529554
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -138,3 +122,19 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5234492701554529553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234492701554529564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb4e7aac6bbf60409d7ce63c9500f72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnderBeam: 0
+  detectionTime: 3
+  abductTime: 2
+  speed: 1
