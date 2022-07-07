@@ -6,46 +6,60 @@ public class PlayerController : MonoBehaviour
 {
     private float horizontalInput;
     private float verticalInput;
+    private float speed;
 
     private Rigidbody rb;
     private Vector3 vectorSpeed;
 
-    private Collider beam;
+    private ParticleSystem beam;
 
-    public float speed;
-    public float spinSpeed;
-    // Start is called before the first frame update
+    public float moveSpeed;
+    public float beamSpeed;
+
+    public bool beamActive;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        beam = GetComponentInChildren<CapsuleCollider>();
-        vectorSpeed = new Vector3(0, spinSpeed, 0);
+        beam = GetComponentInChildren<ParticleSystem>();
+        beamActive = false;
+        speed = moveSpeed;
     }
 
-    // Update is called once per frame
     void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        if (Input.GetButtonDown("Fire1")) 
+        {
+            BeamActivate();
+        }
     }
 
     void FixedUpdate()
     {
         // UFO directional movement
         Vector3 move = new Vector3(horizontalInput, 0, verticalInput).normalized;
-        
         rb.AddForce(move * speed, ForceMode.Acceleration);
-
-        // UFO spin
-        Quaternion deltaRotation = Quaternion.Euler(vectorSpeed * Time.fixedDeltaTime);
-        rb.MoveRotation(rb.rotation * deltaRotation);
     }
 
     void OnTriggerEnter(Collider other)
     {
+        if (beamActive)
+        {
+            if (other.CompareTag("Alien"))
+            {
+                other.GetComponent<AlienBase>().isUnderBeam = true;
+            }
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
         if (other.CompareTag("Alien"))
         {
-            other.GetComponent<AlienBase>().isUnderBeam = true;
+            other.GetComponent<AlienBase>().isUnderBeam = beamActive;
         }
     }
 
@@ -57,4 +71,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void BeamActivate()
+    {
+        beamActive = !beamActive;
+
+        if (beamActive)
+        {
+            beam.Play();
+            speed = beamSpeed;
+        }
+        else 
+        {
+            beam.Stop();
+            speed = moveSpeed;
+        }
+    }
 }
