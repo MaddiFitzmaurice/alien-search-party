@@ -52,7 +52,6 @@ public class SpawnManager : MonoBehaviour
         // Make sure alien is available from the pool
         if (alien)
         {
-            Debug.Log(alien);
             // Determine alien's destination
             Transform destination;
 

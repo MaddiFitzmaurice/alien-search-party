@@ -11,6 +11,7 @@ public class StateMachine
     {
         Assert.IsNotNull(startState);
         CurrentState = startState;
+        CurrentState.Enter();
     }
 
     public void ChangeState(BaseState newState)

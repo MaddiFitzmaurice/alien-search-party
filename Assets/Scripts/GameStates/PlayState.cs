@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayState : BaseState
 {
-
+    public override void Enter()
+    {
+        Debug.Log("Play State entered");
+    }
 }
 
