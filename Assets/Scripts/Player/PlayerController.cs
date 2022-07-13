@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float horizontalInput;
-    private float verticalInput;
-    private float speed;
+    private float _horizontalInput;
+    private float _verticalInput;
+    private float _speed;
 
-    private Rigidbody rb;
-    private Vector3 vectorSpeed;
+    private Rigidbody _rb;
+    private Vector3 _vectorSpeed;
 
-    private ParticleSystem beam;
+    private ParticleSystem _beam;
 
-    public float moveSpeed;
-    public float beamSpeed;
+    public float MoveSpeed;
+    public float BeamSpeed;
 
-    public bool beamActive;
+    public bool BeamActive;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        beam = GetComponentInChildren<ParticleSystem>();
-        beamActive = false;
-        speed = moveSpeed;
+        _rb = GetComponent<Rigidbody>();
+        _beam = GetComponentInChildren<ParticleSystem>();
+        BeamActive = false;
+        _speed = MoveSpeed;
     }
 
     void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        _horizontalInput = Input.GetAxisRaw("Horizontal");
+        _verticalInput = Input.GetAxisRaw("Vertical");
 
         if (Input.GetButtonDown("Fire1")) 
         {
@@ -40,17 +40,17 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         // UFO directional movement
-        Vector3 move = new Vector3(horizontalInput, 0, verticalInput).normalized;
-        rb.AddForce(move * speed, ForceMode.Acceleration);
+        Vector3 move = new Vector3(_horizontalInput, 0, _verticalInput).normalized;
+        _rb.AddForce(move * _speed, ForceMode.Acceleration);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (beamActive)
+        if (BeamActive)
         {
             if (other.CompareTag("Alien"))
             {
-                other.GetComponent<AlienBase>().isUnderBeam = true;
+                other.GetComponent<AlienBase>().IsUnderBeam = true;
             }
         }
     }
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Alien"))
         {
-            other.GetComponent<AlienBase>().isUnderBeam = beamActive;
+            other.GetComponent<AlienBase>().IsUnderBeam = BeamActive;
         }
     }
 
@@ -67,23 +67,23 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Alien"))
         {
-            other.GetComponent<AlienBase>().isUnderBeam = false;
+            other.GetComponent<AlienBase>().IsUnderBeam = false;
         }
     }
 
     void BeamActivate()
     {
-        beamActive = !beamActive;
+        BeamActive = !BeamActive;
 
-        if (beamActive)
+        if (BeamActive)
         {
-            beam.Play();
-            speed = beamSpeed;
+            _beam.Play();
+            _speed = BeamSpeed;
         }
         else 
         {
-            beam.Stop();
-            speed = moveSpeed;
+            _beam.Stop();
+            _speed = MoveSpeed;
         }
     }
 }

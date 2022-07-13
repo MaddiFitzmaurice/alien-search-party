@@ -5,31 +5,31 @@ using UnityEngine;
 public class AlienGrey : AlienBase
 {
      [SerializeField]
-    private int abductTime;
+    private int _abductTime;
     [SerializeField]
-    private float speed;
+    private float _speed;
 
     void Update()
     {
-        if (!isUnderBeam)
+        if (!IsUnderBeam)
         {
-            if (!targetReached)
+            if (!TargetReached)
             {
-                if (navMeshAgent.remainingDistance < 0.5f)
+                if (NavMeshAgent.remainingDistance < 0.5f)
                 {
-                    targetReached = true;
+                    TargetReached = true;
                     ReachedTarget();
                 }
                 else 
                 {
                     Move();
-                    timer = 0;
+                    Timer = 0;
                 }
             }
         }
         else
         {
-            if (timer < abductTime)
+            if (Timer < _abductTime)
             {
                 Abduct();
             }
@@ -38,13 +38,13 @@ public class AlienGrey : AlienBase
                 Destroy();
             }
 
-            timer += Time.deltaTime;
+            Timer += Time.deltaTime;
         }
     }
 
     protected override void Move()
     {
-        navMeshAgent.isStopped = false;
-        navMeshAgent.speed = speed;
+        NavMeshAgent.isStopped = false;
+        NavMeshAgent.speed = _speed;
     }
 }

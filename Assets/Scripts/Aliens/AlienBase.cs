@@ -5,35 +5,35 @@ using UnityEngine.AI;
 
 public abstract class AlienBase : MonoBehaviour
 {
-    protected NavMeshAgent navMeshAgent;
-    protected float timer;
+    protected NavMeshAgent NavMeshAgent;
+    protected float Timer;
     
     // If Alien has reached target
-    public bool targetReached;
+    public bool TargetReached;
 
     // If Alien is under player's UFO abduction beam
-    public bool isUnderBeam;
+    public bool IsUnderBeam;
 
-    public float detectionTime;
+    public float DetectionTimer;
 
     protected void Awake()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        isUnderBeam = false;
-        targetReached = false;
-        timer = 0;
+        NavMeshAgent = GetComponent<NavMeshAgent>();
+        IsUnderBeam = false;
+        TargetReached = false;
+        Timer = 0;
     }
 
     protected abstract void Move();
 
     protected void Abduct()
     {
-        navMeshAgent.isStopped = true;
+        NavMeshAgent.isStopped = true;
     }
 
     protected void ReachedTarget()
     {
-        Invoke("Destroy", detectionTime);
+        Invoke("Destroy", DetectionTimer);
     }
 
     protected void OnDisable()
@@ -46,15 +46,15 @@ public abstract class AlienBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void Reset(Transform _spawnPoint, Transform _destination)
+    public void Reset(Transform spawnPoint, Transform destination)
     {
-        gameObject.transform.position = _spawnPoint.position;
+        gameObject.transform.position = spawnPoint.position;
         gameObject.SetActive(true);
-        navMeshAgent.SetDestination(_destination.position);
-        isUnderBeam = false;
-        targetReached = false;
-        navMeshAgent.isStopped = false;
-        timer = 0;
+        NavMeshAgent.SetDestination(destination.position);
+        IsUnderBeam = false;
+        TargetReached = false;
+        NavMeshAgent.isStopped = false;
+        Timer = 0;
     }
 }
 

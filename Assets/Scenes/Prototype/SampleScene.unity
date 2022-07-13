@@ -322,9 +322,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180280434956d754f87ad94a566abc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 40
-  beamSpeed: 10
-  beamActive: 0
+  MoveSpeed: 40
+  BeamSpeed: 20
+  BeamActive: 0
 --- !u!136 &142255163
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -11284,22 +11284,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82571b2fb85e53e4d9b8d16d2735482d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountAliensGreen: 10
-  amountAliensGrey: 5
-  spawnTime: 3
-  alienPrefabs:
+  AmountAliensGreen: 10
+  AmountAliensGrey: 5
+  SpawnTime: 3
+  AlienPrefabs:
   - {fileID: 4979233854745071068, guid: f2b5f232a0df3cf4c8460def5cae5347, type: 3}
   - {fileID: 5234492701554529564, guid: 908a26bc7f28e574daaaf06ace209358, type: 3}
-  alienGroupings:
+  AlienGroupings:
   - {fileID: 925145008}
   - {fileID: 1575658400}
-  spawnPoints:
+  SpawnPoints:
   - {fileID: 214208382}
   - {fileID: 598319231}
-  farms:
+  Farms:
   - {fileID: 2094624265}
   - {fileID: 1899701807}
-  towns:
+  Towns:
   - {fileID: 855459026}
   - {fileID: 1173269753}
 --- !u!1 &2094624261

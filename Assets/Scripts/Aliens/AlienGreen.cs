@@ -5,39 +5,39 @@ using UnityEngine;
 public class AlienGreen : AlienBase
 {
     [SerializeField]
-    private int abductTime;
+    private int _abductTime;
     [SerializeField]
-    private int resistTime;
+    private int _resistTime;
     [SerializeField]
-    private float speed;
+    private float _speed;
     [SerializeField]
-    private float resistSpeed;
+    private float _resistSpeed;
 
     void Update()
     {
-        if (!isUnderBeam)
+        if (!IsUnderBeam)
         {
-            if (!targetReached)
+            if (!TargetReached)
             {
-                if (navMeshAgent.remainingDistance < 0.5f)
+                if (NavMeshAgent.remainingDistance < 0.5f)
                 {
-                    targetReached = true;
+                    TargetReached = true;
                     ReachedTarget();
                 }
                 else 
                 {
                     Move();
-                    timer = 0;
+                    Timer = 0;
                 }
             }
         }
         else
         {
-            if (timer < resistTime)
+            if (Timer < _resistTime)
             {
                 Resist();
             }
-            else if (timer > resistTime && timer < resistTime + abductTime)
+            else if (Timer > _resistTime && Timer < _resistTime + _abductTime)
             {
                 Abduct();
             }
@@ -46,18 +46,18 @@ public class AlienGreen : AlienBase
                 Destroy();
             }
 
-            timer += Time.deltaTime;
+            Timer += Time.deltaTime;
         }
     }
 
     protected override void Move()
     {
-        navMeshAgent.isStopped = false;
-        navMeshAgent.speed = speed;
+        NavMeshAgent.isStopped = false;
+        NavMeshAgent.speed = _speed;
     }
 
     private void Resist()
     {
-        navMeshAgent.speed = resistSpeed;
+        NavMeshAgent.speed = _resistSpeed;
     }
 }

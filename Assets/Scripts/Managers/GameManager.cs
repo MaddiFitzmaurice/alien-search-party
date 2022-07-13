@@ -5,16 +5,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Singleton pattern so everything has access to this script
-    public static GameManager instance { get; private set; }
+    public static GameManager Instance { get; private set; }
 
-    public StateMachine gmStateMachine;
+    public StateMachine GMStateMachine;
 
     void Awake()
     {
         
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
         else 
         {
@@ -30,11 +30,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        gmStateMachine.currentState.LogicUpdate();
+        GMStateMachine.CurrentState.LogicUpdate();
     }
 
     void FixedUpdate()
     {
-        gmStateMachine.currentState.PhysicsUpdate();
+        GMStateMachine.CurrentState.PhysicsUpdate();
     }
 }

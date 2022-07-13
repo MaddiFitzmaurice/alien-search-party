@@ -2,43 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum AlienType {Green, Grey};
+
 public class SpawnManager : MonoBehaviour
 {
-    public int amountAliensGreen;
-    public int amountAliensGrey;
+    public int AmountAliensGreen;
+    public int AmountAliensGrey;
 
-    public float spawnTime;
-    public GameObject[] alienPrefabs;
+    public float SpawnTime;
+    public GameObject[] AlienPrefabs;
 
-    public Transform[] alienGroupings;
+    public Transform[] AlienGroupings;
 
-    public Transform[] spawnPoints;
-    public Transform[] farms;
-    public Transform[] towns;
+    public Transform[] SpawnPoints;
+    public Transform[] Farms;
+    public Transform[] Towns;
 
     // List of pooled Aliens
-    private List<GameObject>[] aliensList;
-
-    enum AlienType {Green, Grey};
+    private List<GameObject>[] _aliensList;
 
     void Start()
     {
         CreateAliens();
-        InvokeRepeating("SpawnAliens", 1.0f, spawnTime);
+        InvokeRepeating("SpawnAliens", 1.0f, SpawnTime);
     }
 
     void CreateAliens()
     {
-        aliensList = new List<GameObject>[2];
-        aliensList[(int)AlienType.Green] = SetupAliens(AlienType.Green, amountAliensGreen, alienPrefabs[(int)AlienType.Green], alienGroupings[(int)AlienType.Green]);
-        aliensList[(int)AlienType.Grey] = SetupAliens(AlienType.Grey, amountAliensGrey, alienPrefabs[(int)AlienType.Grey], alienGroupings[(int)AlienType.Grey]);
+        _aliensList = new List<GameObject>[2];
+        _aliensList[(int)AlienType.Green] = SetupAliens(AlienType.Green, AmountAliensGreen, AlienPrefabs[(int)AlienType.Green], AlienGroupings[(int)AlienType.Green]);
+        _aliensList[(int)AlienType.Grey] = SetupAliens(AlienType.Grey, AmountAliensGrey, AlienPrefabs[(int)AlienType.Grey], AlienGroupings[(int)AlienType.Grey]);
     }
 
     // Helper function to setup alien object pooling for different types
-    List<GameObject> SetupAliens(AlienType _type, int _amount, GameObject _prefab, Transform _parent)
+    List<GameObject> SetupAliens(AlienType type, int amount, GameObject prefab, Transform parent)
     {
-        List<GameObject> alienList = ObjectPooler.CreateObjectPool(_amount, _prefab);
-        ObjectPooler.AssignParentGroup(alienList, _parent);
+        List<GameObject> alienList = ObjectPooler.CreateObjectPool(amount, prefab);
+        ObjectPooler.AssignParentGroup(alienList, parent);
 
         return alienList;
     }
@@ -47,7 +47,7 @@ public class SpawnManager : MonoBehaviour
     {
         // Grab an alien type based on chance
         int rndType = RandomSpawnChance();
-        GameObject alien = ObjectPooler.GetPooledObject(aliensList[rndType]);
+        GameObject alien = ObjectPooler.GetPooledObject(_aliensList[rndType]);
 
         // Make sure alien is available from the pool
         if (alien)
@@ -59,16 +59,16 @@ public class SpawnManager : MonoBehaviour
             // If alien spawned is Green, send to a random farm
             if (rndType == (int)AlienType.Green)
             {
-                destination = farms[Random.Range(0, farms.Length)];
+                destination = Farms[Random.Range(0, Farms.Length)];
             }
             // Else if alien spawned is Grey, send to a random town
             else
             {
-                destination = towns[Random.Range(0, towns.Length)];
+                destination = Towns[Random.Range(0, Towns.Length)];
             }
 
             // Reset alien parameters and spawn
-            alien.GetComponent<AlienBase>().Reset(spawnPoints[Random.Range(0, spawnPoints.Length)], destination);
+            alien.GetComponent<AlienBase>().Reset(SpawnPoints[Random.Range(0, SpawnPoints.Length)], destination);
         }
     }
 
@@ -76,14 +76,6 @@ public class SpawnManager : MonoBehaviour
     {
         int rnd = Random.Range(1, 6);
 
-        if (rnd != 5)
-        {
-            return 0;
-        }
-
-        else 
-        {
-            return 1;
-        }
+        return (rnd == 5) ? 1 : 0;
     }
 }
