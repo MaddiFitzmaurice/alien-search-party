@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5234492701554529554}
   - component: {fileID: 5234492701554529553}
   m_Layer: 0
-  m_Name: Alien_Grey
+  m_Name: AlienGrey
   m_TagString: Alien
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 136
   m_ObstacleAvoidanceType: 4
 --- !u!114 &5234492701554529553
 MonoBehaviour:
