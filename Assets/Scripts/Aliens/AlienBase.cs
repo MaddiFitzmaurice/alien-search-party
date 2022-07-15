@@ -7,10 +7,15 @@ public abstract class AlienBase : MonoBehaviour
 {
     protected NavMeshAgent NavMeshAgent;
     protected float Timer;
+    [SerializeField]
+    protected float AbductTime;
+    [SerializeField]
+    protected float Speed;
     
     // If Alien has reached target
+    [HideInInspector]
     public bool TargetReached;
-
+    [HideInInspector]
     // If Alien is under player's UFO abduction beam
     public bool IsUnderBeam;
 
@@ -24,7 +29,11 @@ public abstract class AlienBase : MonoBehaviour
         Timer = 0;
     }
 
-    protected abstract void Move();
+    protected virtual void Move()
+    {
+        NavMeshAgent.isStopped = false;
+        NavMeshAgent.speed = Speed;
+    }
 
     protected void Abduct()
     {

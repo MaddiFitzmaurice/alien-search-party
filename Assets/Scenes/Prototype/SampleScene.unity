@@ -2360,7 +2360,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.3
+  m_Radius: 0.15
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: -1, z: 0}
@@ -12827,7 +12827,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 1.6000001, z: -1.9}
+  m_LocalPosition: {x: 0, y: 2.5000799, z: -2.50005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24845,7 +24845,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.3
+      value: 0.15
       mode: 0
       spread: 0
       speed:
@@ -30671,7 +30671,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 7
+    angle: 4
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -30757,7 +30757,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.1
+      value: 0.05
       mode: 0
       spread: 0
       speed:
@@ -35327,9 +35327,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82571b2fb85e53e4d9b8d16d2735482d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AmountAliensGreen: 10
+  AmountAliensGreen: 5
   AmountAliensGrey: 5
-  SpawnTime: 3
+  SpawnTime: 8
   AlienPrefabs:
   - {fileID: 4979233854745071068, guid: f2b5f232a0df3cf4c8460def5cae5347, type: 3}
   - {fileID: 5234492701554529564, guid: 908a26bc7f28e574daaaf06ace209358, type: 3}

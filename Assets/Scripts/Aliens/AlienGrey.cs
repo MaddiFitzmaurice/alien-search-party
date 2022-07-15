@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class AlienGrey : AlienBase
 {
-     [SerializeField]
-    private int _abductTime;
-    [SerializeField]
-    private float _speed;
-
     void Update()
     {
         if (!IsUnderBeam)
@@ -29,7 +24,7 @@ public class AlienGrey : AlienBase
         }
         else
         {
-            if (Timer < _abductTime)
+            if (Timer < AbductTime)
             {
                 Abduct();
             }
@@ -40,11 +35,5 @@ public class AlienGrey : AlienBase
 
             Timer += Time.deltaTime;
         }
-    }
-
-    protected override void Move()
-    {
-        NavMeshAgent.isStopped = false;
-        NavMeshAgent.speed = _speed;
     }
 }

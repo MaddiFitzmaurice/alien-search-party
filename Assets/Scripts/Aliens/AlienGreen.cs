@@ -5,11 +5,7 @@ using UnityEngine;
 public class AlienGreen : AlienBase
 {
     [SerializeField]
-    private int _abductTime;
-    [SerializeField]
     private int _resistTime;
-    [SerializeField]
-    private float _speed;
     [SerializeField]
     private float _resistSpeed;
 
@@ -37,7 +33,7 @@ public class AlienGreen : AlienBase
             {
                 Resist();
             }
-            else if (Timer > _resistTime && Timer < _resistTime + _abductTime)
+            else if (Timer > _resistTime && Timer < _resistTime + AbductTime)
             {
                 Abduct();
             }
@@ -48,12 +44,6 @@ public class AlienGreen : AlienBase
 
             Timer += Time.deltaTime;
         }
-    }
-
-    protected override void Move()
-    {
-        NavMeshAgent.isStopped = false;
-        NavMeshAgent.speed = _speed;
     }
 
     private void Resist()
