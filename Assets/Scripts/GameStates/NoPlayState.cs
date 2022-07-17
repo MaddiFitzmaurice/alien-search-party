@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IntroState : BaseState
+public class NoPlayState : BaseState
 {
+    public delegate void PlayStateEvent();
+    public event PlayStateEvent EnterNoPlayState;
     public override void Enter()
     {
-        Debug.Log("Introduction State entered");
+        if (EnterNoPlayState != null)
+        {
+            EnterNoPlayState();
+        }
+        Debug.Log("NoPlay State entered");
     }
 
     public override void LogicUpdate()
@@ -19,6 +25,6 @@ public class IntroState : BaseState
 
     public override void Exit()
     {
-        Debug.Log("Introduction State left");
+        Debug.Log("NoPlay State left");
     }
 }

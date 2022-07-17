@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     // States and StateMachine
     public StateMachine GMStateMachine { get; private set; }
-    public IntroState IntroState { get; private set; }
+    public NoPlayState NoPlayState { get; private set; }
     public PlayState PlayState { get; private set; }
     public EndState EndState { get; private set; }
 
@@ -27,17 +27,17 @@ public class GameManager : MonoBehaviour
         }
 
         // Set up states
-        IntroState = new IntroState();
+        NoPlayState = new NoPlayState();
         PlayState = new PlayState();
         EndState = new EndState();
 
         // Enter IntroState
-        GMStateMachine = new StateMachine(IntroState);
+        GMStateMachine = new StateMachine(NoPlayState);
     }
 
     void Start()
     {
-        GMStateMachine.ChangeState(IntroState);
+        GMStateMachine.ChangeState(NoPlayState);
     }
 
     void Update()
