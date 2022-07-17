@@ -24,7 +24,17 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         CreateAliens();
-        InvokeRepeating("SpawnAliens", 1.0f, SpawnTime);
+        GameManager.Instance.PlayState.EnterPlayState += StartSpawning;
+    }
+
+    void OnDisable()
+    {
+        GameManager.Instance.PlayState.EnterPlayState -= StartSpawning;
+    }
+
+    void StartSpawning()
+    {
+        InvokeRepeating("Level3", 1.0f, SpawnTime);
     }
 
     void CreateAliens()
@@ -43,7 +53,7 @@ public class SpawnManager : MonoBehaviour
         return alienList;
     }
 
-    void SpawnAliens()
+    void Level3()
     {
         // Grab an alien type based on chance
         int rndType = RandomSpawnChance();

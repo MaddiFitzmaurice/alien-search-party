@@ -138,6 +138,6 @@ MonoBehaviour:
   Speed: 0.3
   TargetReached: 0
   IsUnderBeam: 0
-  DetectionTimer: 5
+  DetectionTime: 5
   _resistTime: 3
   _resistSpeed: 0.15

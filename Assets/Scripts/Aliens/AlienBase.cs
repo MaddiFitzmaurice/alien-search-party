@@ -19,7 +19,7 @@ public abstract class AlienBase : MonoBehaviour
     // If Alien is under player's UFO abduction beam
     public bool IsUnderBeam;
 
-    public float DetectionTimer;
+    public float DetectionTime;
 
     protected void Awake()
     {
@@ -42,7 +42,13 @@ public abstract class AlienBase : MonoBehaviour
 
     protected void ReachedTarget()
     {
-        Invoke("Destroy", DetectionTimer);
+        Invoke("WasDetected", DetectionTime);
+        Invoke("Destroy", DetectionTime);
+    }
+
+    protected void WasDetected()
+    {
+        GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndState);
     }
 
     protected void OnDisable()

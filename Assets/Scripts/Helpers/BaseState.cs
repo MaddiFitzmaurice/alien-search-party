@@ -23,4 +23,19 @@ public abstract class BaseState
     {
 
     }
+
+    public virtual void OnTriggerEnter(Collider other)
+    {
+
+    }
+
+    public virtual void OnTriggerStay(Collider other)
+    {
+
+    }
+
+    public virtual void OnTriggerExit(Collider other)
+    {
+
+    }
 }

@@ -25,10 +25,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
             return;
         }
-    }
 
-    void Start()
-    {
         // Set up states
         IntroState = new IntroState();
         PlayState = new PlayState();
@@ -36,6 +33,11 @@ public class GameManager : MonoBehaviour
 
         // Enter IntroState
         GMStateMachine = new StateMachine(IntroState);
+    }
+
+    void Start()
+    {
+        GMStateMachine.ChangeState(IntroState);
     }
 
     void Update()
