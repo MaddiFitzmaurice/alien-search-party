@@ -24,8 +24,7 @@ public class PlayerControlState : BaseState
 
      public override void Enter()
     {
-        _beamActive = false;
-        _speed = _player.MoveSpeed;
+       BeamReset();
     }
 
     public override void LogicUpdate()
@@ -48,7 +47,7 @@ public class PlayerControlState : BaseState
 
     public override void Exit()
     {
-        
+        BeamReset();
     }
 
     public override void OnTriggerEnter(Collider other)
@@ -92,5 +91,11 @@ public class PlayerControlState : BaseState
             _player.Beam.Stop();
             _speed = _player.MoveSpeed;
         }
+    }
+
+    void BeamReset()
+    {
+         _beamActive = false;
+        _speed = _player.MoveSpeed;
     }
 }

@@ -61,15 +61,20 @@ public abstract class AlienBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void Reset(Transform spawnPoint, Transform destination)
+    public void Reset()
+    {
+        gameObject.SetActive(false);
+        IsUnderBeam = false;
+        TargetReached = false;
+        Timer = 0;
+    }
+
+    public void Spawn(Transform spawnPoint, Transform destination)
     {
         gameObject.transform.position = spawnPoint.position;
         gameObject.SetActive(true);
         NavMeshAgent.SetDestination(destination.position);
-        IsUnderBeam = false;
-        TargetReached = false;
         NavMeshAgent.isStopped = false;
-        Timer = 0;
     }
 }
 

@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public PlayState PlayState { get; private set; }
     public EndState EndState { get; private set; }
 
+    public int Level;
+
     void Awake()
     {
         // Set up singleton pattern
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Level = 1;
         GMStateMachine.ChangeState(NoPlayState);
     }
 

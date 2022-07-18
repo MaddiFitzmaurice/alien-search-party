@@ -34,9 +34,18 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        // Set up event triggers
+        // Set up event triggers for state changes
         GameManager.Instance.PlayState.EnterPlayState += EnterPlayerControlState;
         GameManager.Instance.NoPlayState.EnterNoPlayState += EnterPlayerNoControlState;
+        GameManager.Instance.EndState.EnterEndState += EnterPlayerNoControlState;
+    }
+
+    void OnDisable()
+    {
+        // Unsubscribe from event triggers
+        GameManager.Instance.PlayState.EnterPlayState -= EnterPlayerControlState;
+        GameManager.Instance.NoPlayState.EnterNoPlayState -= EnterPlayerNoControlState;
+        GameManager.Instance.EndState.EnterEndState -= EnterPlayerNoControlState;
     }
 
     // Update State Functions

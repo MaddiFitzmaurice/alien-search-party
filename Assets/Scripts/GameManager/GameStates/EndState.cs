@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class EndState : BaseState
 {
+    public delegate void EndStateEvent();
+    public event EndStateEvent EnterEndState;
     public override void Enter()
     {
+        if (EnterEndState != null)
+        {
+            EnterEndState();
+        }
         Debug.Log("End State entered");
     }
 
     public override void LogicUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.PlayState);
-        }
+        
     }
 
     public override void Exit()

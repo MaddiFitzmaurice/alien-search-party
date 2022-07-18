@@ -16,5 +16,13 @@ public class PlayState : BaseState
             EnterPlayState();
         }
     }
+
+    public override void LogicUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.NoPlayState);
+        }
+    }
 }
 
