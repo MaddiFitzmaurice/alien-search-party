@@ -39,7 +39,7 @@ public class AlienGreen : AlienBase
             }
             else 
             {
-                Destroy();
+                Caught();
             }
 
             Timer += Time.deltaTime;

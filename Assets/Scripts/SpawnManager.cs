@@ -10,7 +10,9 @@ public class SpawnManager : MonoBehaviour
     public int PooledAmountAliensGreen;
     public int PooledAmountAliensGrey;
 
-    public float SpawnTime;
+    // Time after level starts to start spawning Aliens
+    [SerializeField]
+    private float _startSpawnTime;
 
     // Alien Data
     public GameObject[] AlienPrefabs;
@@ -59,7 +61,7 @@ public class SpawnManager : MonoBehaviour
     void StartSpawning()
     {
         _currentLevel = GameManager.Instance.Level;
-        InvokeRepeating("SpawnAliens", 1.0f, _levels[_currentLevel].SpawnRate);
+        InvokeRepeating("SpawnAliens", _startSpawnTime, _levels[_currentLevel].SpawnRate);
     }
 
     void StopSpawning()
@@ -105,6 +107,14 @@ public class SpawnManager : MonoBehaviour
         // If max amount of Aliens spawned for the level reached, stop spawning
         if (alienType == -1)
         {
+            // Check to see if player has abducted all aliens
+            var aliensLeft = FindObjectsOfType<AlienBase>();
+            if (aliensLeft.Length == 0)
+            {
+                // Advance to next level
+                GameManager.Instance.Level += 1;
+                GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.NoPlayState);
+            }
             return;
         }
         // If max hasn't been reached yet, keep spawning

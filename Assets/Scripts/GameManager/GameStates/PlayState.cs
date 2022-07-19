@@ -6,7 +6,7 @@ public class PlayState : BaseState
 {
     // Set up a broadcast to indicate to all state machines to change states
     public delegate void PlayStateEvent();
-    public event PlayStateEvent EnterPlayState; 
+    public event PlayStateEvent EnterPlayState;
 
     public override void Enter()
     {

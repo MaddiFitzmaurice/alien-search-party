@@ -43,11 +43,11 @@ public abstract class AlienBase : MonoBehaviour
     protected void ReachedTarget()
     {
         Invoke("WasDetected", DetectionTime);
-        Invoke("Destroy", DetectionTime);
     }
 
     protected void WasDetected()
     {
+        gameObject.SetActive(false);
         GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndState);
     }
 
@@ -56,7 +56,7 @@ public abstract class AlienBase : MonoBehaviour
         CancelInvoke();
     }
     
-    protected void Destroy()
+    protected void Caught()
     {
         gameObject.SetActive(false);
     }
