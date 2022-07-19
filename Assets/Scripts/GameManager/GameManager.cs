@@ -13,7 +13,22 @@ public class GameManager : MonoBehaviour
     public PlayState PlayState { get; private set; }
     public EndState EndState { get; private set; }
 
-    public int Level;
+    public Level[] Levels;
+    // Ensure level is no greater than 3
+    [SerializeField]
+    private int _level;
+    public int Level
+    {
+        get { return _level; }
+        set 
+        {
+            _level = value;
+            if (_level > Levels.Length - 1)
+            {
+                _level = Levels.Length - 1;
+            }
+        }
+    }
 
     void Awake()
     {
@@ -39,7 +54,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Level = 1;
         GMStateMachine.ChangeState(NoPlayState);
     }
 
