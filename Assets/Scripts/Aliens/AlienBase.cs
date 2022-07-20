@@ -48,7 +48,8 @@ public abstract class AlienBase : MonoBehaviour
     protected void WasDetected()
     {
         gameObject.SetActive(false);
-        GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndState);
+        GameManager.Instance.PlayState.Failed = true;
+        GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndLevelState);
     }
 
     protected void OnDisable()

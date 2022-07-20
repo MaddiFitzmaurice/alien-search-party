@@ -46,16 +46,16 @@ public class SpawnManager : MonoBehaviour
 
         // Subscribe to Events
         GameManager.Instance.PlayState.EnterPlayState += StartSpawning;
-        GameManager.Instance.NoPlayState.EnterNoPlayState += StopSpawning;
-        GameManager.Instance.EndState.EnterEndState += StopSpawning;
+        GameManager.Instance.StartLevelState.EnterStartLevelState += StopSpawning;
+        GameManager.Instance.EndLevelState.EnterEndLevelState += StopSpawning;
     }
 
     void OnDisable()
     {
         // Unsubscribe from Events
         GameManager.Instance.PlayState.EnterPlayState -= StartSpawning;
-        GameManager.Instance.NoPlayState.EnterNoPlayState -= StopSpawning;
-        GameManager.Instance.EndState.EnterEndState -= StopSpawning;
+        GameManager.Instance.StartLevelState.EnterStartLevelState -= StopSpawning;
+        GameManager.Instance.EndLevelState.EnterEndLevelState -= StopSpawning;
     }
 
     void StartSpawning()
@@ -107,14 +107,7 @@ public class SpawnManager : MonoBehaviour
         // If max amount of Aliens spawned for the level reached, stop spawning
         if (alienType == -1)
         {
-            // Check to see if player has abducted all aliens
-            var aliensLeft = FindObjectsOfType<AlienBase>();
-            if (aliensLeft.Length == 0)
-            {
-                // Advance to next level
-                GameManager.Instance.Level += 1;
-                GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.NoPlayState);
-            }
+            CheckIfLevelEnd();
             return;
         }
         // If max hasn't been reached yet, keep spawning
@@ -223,5 +216,21 @@ public class SpawnManager : MonoBehaviour
         int rnd = Random.Range(1, _levels[_currentLevel].SpawnChanceGrey + 1);
 
         return (rnd == _levels[_currentLevel].SpawnChanceGrey) ? 1 : 0;
+    }
+
+    void CheckIfLevelEnd()
+    {
+        // Check to see if player has abducted all aliens
+        var aliensLeft = FindObjectsOfType<AlienBase>();
+        if (aliensLeft.Length == 0)
+        {
+            // Advance to next level
+            if (GameManager.Instance.Level < GameManager.Instance.Levels.Length - 1)
+            {
+                GameManager.Instance.Level += 1;
+            }
+            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndLevelState);
+            
+        }
     }
 }

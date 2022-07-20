@@ -96,6 +96,7 @@ public class PlayerControlState : BaseState
     void BeamReset()
     {
          _beamActive = false;
+        _player.Beam.Stop();
         _speed = _player.MoveSpeed;
     }
 }

@@ -36,16 +36,16 @@ public class Player : MonoBehaviour
     {
         // Set up event triggers for state changes
         GameManager.Instance.PlayState.EnterPlayState += EnterPlayerControlState;
-        GameManager.Instance.NoPlayState.EnterNoPlayState += EnterPlayerNoControlState;
-        GameManager.Instance.EndState.EnterEndState += EnterPlayerNoControlState;
+        GameManager.Instance.StartLevelState.EnterStartLevelState += EnterPlayerNoControlState;
+        GameManager.Instance.EndLevelState.EnterEndLevelState += EnterPlayerNoControlState;
     }
 
     void OnDisable()
     {
         // Unsubscribe from event triggers
         GameManager.Instance.PlayState.EnterPlayState -= EnterPlayerControlState;
-        GameManager.Instance.NoPlayState.EnterNoPlayState -= EnterPlayerNoControlState;
-        GameManager.Instance.EndState.EnterEndState -= EnterPlayerNoControlState;
+        GameManager.Instance.StartLevelState.EnterStartLevelState -= EnterPlayerNoControlState;
+        GameManager.Instance.EndLevelState.EnterEndLevelState -= EnterPlayerNoControlState;
     }
 
     // Update State Functions

@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoPlayState : BaseState
+public class StartLevelState : BaseState
 {
-    public delegate void PlayStateEvent();
-    public event PlayStateEvent EnterNoPlayState;
+    public delegate void StartLevelStateEvent();
+    public event StartLevelStateEvent EnterStartLevelState;
     public override void Enter()
     {
-        if (EnterNoPlayState != null)
+        if (EnterStartLevelState != null)
         {
-            EnterNoPlayState();
+            EnterStartLevelState();
         }
-        Debug.Log("NoPlay State entered");
+        Debug.Log("Start Level State Entered");
     }
 
     public override void LogicUpdate()
@@ -25,6 +25,6 @@ public class NoPlayState : BaseState
 
     public override void Exit()
     {
-        Debug.Log("NoPlay State left");
+        Debug.Log("Start Level State left");
     }
 }

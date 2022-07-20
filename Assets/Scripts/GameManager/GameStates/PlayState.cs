@@ -6,10 +6,15 @@ public class PlayState : BaseState
 {
     // Set up a broadcast to indicate to all state machines to change states
     public delegate void PlayStateEvent();
+    public delegate void PauseGameEvent();
     public event PlayStateEvent EnterPlayState;
+    public event PauseGameEvent PauseGame;
+
+    public bool Failed;
 
     public override void Enter()
     {
+        Failed = false;
         Debug.Log("Play State entered");
         if (EnterPlayState != null)
         {
@@ -19,9 +24,13 @@ public class PlayState : BaseState
 
     public override void LogicUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Pause the game
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.NoPlayState);
+            if (PauseGame != null)
+            {
+                PauseGame();
+            }
         }
     }
 }

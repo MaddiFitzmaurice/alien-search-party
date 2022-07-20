@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
 
     // States and StateMachine
     public StateMachine GMStateMachine { get; private set; }
-    public NoPlayState NoPlayState { get; private set; }
+    public StartLevelState StartLevelState { get; private set; }
     public PlayState PlayState { get; private set; }
-    public EndState EndState { get; private set; }
+    public EndLevelState EndLevelState { get; private set; }
 
     public Level[] Levels;
     // Ensure level is no greater than 3
@@ -44,17 +44,17 @@ public class GameManager : MonoBehaviour
         }
 
         // Set up states
-        NoPlayState = new NoPlayState();
+        StartLevelState = new StartLevelState();
         PlayState = new PlayState();
-        EndState = new EndState();
+        EndLevelState = new EndLevelState();
 
         // Enter IntroState
-        GMStateMachine = new StateMachine(NoPlayState);
+        GMStateMachine = new StateMachine(StartLevelState);
     }
 
     void Start()
     {
-        GMStateMachine.ChangeState(NoPlayState);
+        GMStateMachine.ChangeState(StartLevelState);
     }
 
     void Update()
