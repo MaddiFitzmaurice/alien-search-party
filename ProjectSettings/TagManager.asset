@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Alien
+  - Option 1
+  - Option 2
+  - Option 3
   layers:
   - Default
   - TransparentFX
