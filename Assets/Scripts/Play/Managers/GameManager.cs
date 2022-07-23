@@ -54,6 +54,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if (!MenuData.StoryModeOn)
+        {
+            Level = MenuData.LevelSelect;
+        }
+        else
+        {
+            Level = 0;
+        }
         GMStateMachine.ChangeState(StartLevelState);
     }
 
