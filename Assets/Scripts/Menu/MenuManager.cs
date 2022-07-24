@@ -119,6 +119,7 @@ public class MenuManager : MonoBehaviour
 
     void SelectLevelSelect()
     {
+        MenuData.StoryModeOn = false;
         _mainMenuOptions.SetActive(false);
         _levelSelectOptions.SetActive(true);
         _credits.SetActive(false);

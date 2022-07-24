@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 enum MenuType {Pause, Win, Lose};
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject[] Menus;
+    [SerializeField]
+    private GameObject[] _menus;
+
+    [SerializeField]
+    private GameObject _mainMenuButton;
 
     // Used to toggle each menu
     private bool _toggle;
@@ -15,8 +21,7 @@ public class UIManager : MonoBehaviour
     {
         // Subscribe to trigger events
         GameManager.Instance.PlayState.PauseGame += TogglePauseMenu;
-        GameManager.Instance.EndLevelState.EnterEndLevelWinState += ToggleWinMenu;
-        GameManager.Instance.EndLevelState.EnterEndLevelLoseState += ToggleLoseMenu;
+        GameManager.Instance.EndLevelState.ShowEndLevelScreen += ToggleEndScreen;
 
         _toggle = false;
     }
@@ -25,8 +30,18 @@ public class UIManager : MonoBehaviour
     {
         // Unsubscribe to trigger events
         GameManager.Instance.PlayState.PauseGame -= TogglePauseMenu;
-        GameManager.Instance.EndLevelState.EnterEndLevelWinState -= ToggleWinMenu;
-        GameManager.Instance.EndLevelState.EnterEndLevelLoseState -= ToggleLoseMenu;
+        GameManager.Instance.EndLevelState.ShowEndLevelScreen -= ToggleEndScreen;
+    }
+
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void StartLevel()
+    {
+        GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.StartLevelState);
     }
 
     // Toggles the pause menu on and off
@@ -34,19 +49,20 @@ public class UIManager : MonoBehaviour
     {
         ToggleChange();
         Time.timeScale = _toggle == true ? 0 : 1.0f;
-        Menus[(int)MenuType.Pause].SetActive(_toggle);
+        _menus[(int)MenuType.Pause].SetActive(_toggle);
+        ToggleMainMenuButton();
     }
 
-    void ToggleWinMenu()
+    void ToggleEndScreen(int screenDisplay)
     {
         ToggleChange();
-        Menus[(int)MenuType.Win].SetActive(_toggle);
+        _menus[screenDisplay].SetActive(_toggle);
+        ToggleMainMenuButton();
     }
 
-    void ToggleLoseMenu()
+    void ToggleMainMenuButton()
     {
-        ToggleChange();
-        Menus[(int)MenuType.Lose].SetActive(_toggle);
+        _mainMenuButton.SetActive(_toggle);
     }
 
     void ToggleChange()

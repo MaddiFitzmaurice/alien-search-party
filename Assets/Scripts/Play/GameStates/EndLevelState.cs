@@ -5,20 +5,27 @@ using UnityEngine;
 public class EndLevelState : BaseState
 {
     public delegate void EndLevelStateEvent();
-    public delegate void EndLevelWinStateEvent();
-    public delegate void EndLevelLoseStateEvent();
+    public delegate void EndLevelStateOutcomeEvent(int num);
     public event EndLevelStateEvent EnterEndLevelState;
-    public event EndLevelWinStateEvent EnterEndLevelWinState;
-    public event EndLevelLoseStateEvent EnterEndLevelLoseState;
+    public event EndLevelStateOutcomeEvent ShowEndLevelScreen;
+
+    private int _screenDisplayed;
+
     public override void Enter()
     {
-        if (EnterEndLevelWinState != null && !GameManager.Instance.PlayState.Failed)
+        // Decide whether win or lose screen pops up
+        if (GameManager.Instance.PlayState.Failed)
         {
-            EnterEndLevelWinState();
+            _screenDisplayed = (int)MenuType.Lose;
         }
-        else if (EnterEndLevelLoseState != null && GameManager.Instance.PlayState.Failed)
+        else
         {
-            EnterEndLevelLoseState();
+            _screenDisplayed = (int)MenuType.Win;
+        }
+
+        if (ShowEndLevelScreen != null)
+        {
+            ShowEndLevelScreen(_screenDisplayed);
         }
 
         if (EnterEndLevelState != null)
@@ -26,27 +33,18 @@ public class EndLevelState : BaseState
             EnterEndLevelState();
         }
 
-
         Debug.Log("End Level State Entered");
     }
 
     public override void LogicUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.StartLevelState);
-        }
     }
 
     public override void Exit()
     {
-        if (EnterEndLevelWinState != null && !GameManager.Instance.PlayState.Failed)
+        if (ShowEndLevelScreen != null)
         {
-            EnterEndLevelWinState();
-        }
-        else if (EnterEndLevelLoseState != null && GameManager.Instance.PlayState.Failed)
-        {
-            EnterEndLevelLoseState();
+            ShowEndLevelScreen(_screenDisplayed);
         }
         Debug.Log("End Level State Left");
     }
