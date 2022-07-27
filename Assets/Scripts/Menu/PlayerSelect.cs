@@ -44,6 +44,10 @@ public class PlayerSelect : MonoBehaviour
             if (BackToMainMenu != null)
             {
                 BackToMainMenu();
+                if (_currentSelection != -1)
+                {
+                    HoverText(_currentSelection);
+                }
             }
         }
 
@@ -75,6 +79,7 @@ public class PlayerSelect : MonoBehaviour
             if (HoverText != null)
             {
                 HoverText((int)MenuOptions.Option1);
+                other.GetComponentInChildren<Animator>().SetBool("Abduct", true);
             }
         }
         else if (other.tag == "Option 2")
@@ -83,6 +88,7 @@ public class PlayerSelect : MonoBehaviour
             if (HoverText != null)
             {
                 HoverText((int)MenuOptions.Option2);
+                other.GetComponentInChildren<Animator>().SetBool("Abduct", true);
             }
         }
         else if (other.tag == "Option 3")
@@ -103,6 +109,7 @@ public class PlayerSelect : MonoBehaviour
             if (NoHoverText != null)
             {
                 NoHoverText((int)MenuOptions.Option1);
+                other.GetComponentInChildren<Animator>().SetBool("Abduct", false);
             }
         }
         else if (other.tag == "Option 2")
@@ -111,6 +118,7 @@ public class PlayerSelect : MonoBehaviour
             if (NoHoverText != null)
             {
                 NoHoverText((int)MenuOptions.Option2);
+                other.GetComponentInChildren<Animator>().SetBool("Abduct", false);
             }
         }
         else if (other.tag == "Option 3")
