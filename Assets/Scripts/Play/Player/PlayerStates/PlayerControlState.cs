@@ -91,11 +91,13 @@ public class PlayerControlState : BaseState
             _player.Beam.Stop();
             _speed = _player.MoveSpeed;
         }
+
+        _player.PlayerAnim.SetBool("_beamActive", _beamActive);
     }
 
     void BeamReset()
     {
-         _beamActive = false;
+        _beamActive = false;
         _player.Beam.Stop();
         _speed = _player.MoveSpeed;
     }

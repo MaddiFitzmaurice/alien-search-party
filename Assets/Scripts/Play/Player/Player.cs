@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public ParticleSystem Beam;
 
+    public Animator PlayerAnim;
+
     // State Machine and States
     private StateMachine _playerStateMachine;
     private PlayerControlState _playerControlState;
