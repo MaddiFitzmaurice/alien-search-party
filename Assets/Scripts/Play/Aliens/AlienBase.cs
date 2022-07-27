@@ -21,6 +21,8 @@ public abstract class AlienBase : MonoBehaviour
 
     public float DetectionTime;
 
+    public Animator AlienAnim;
+
     protected void Awake()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -33,15 +35,20 @@ public abstract class AlienBase : MonoBehaviour
     {
         NavMeshAgent.isStopped = false;
         NavMeshAgent.speed = Speed;
+        AlienAnim.SetFloat("Speed", NavMeshAgent.speed);
+        AlienAnim.SetBool("isAbducted", NavMeshAgent.isStopped);
     }
 
     protected void Abduct()
     {
         NavMeshAgent.isStopped = true;
+        AlienAnim.SetFloat("Speed", NavMeshAgent.speed);
+        AlienAnim.SetBool("isAbducted", NavMeshAgent.isStopped);
     }
 
     protected void ReachedTarget()
     {
+        AlienAnim.SetBool("isStopped", true);
         Invoke("WasDetected", DetectionTime);
     }
 
@@ -64,6 +71,8 @@ public abstract class AlienBase : MonoBehaviour
 
     public void Reset()
     {
+        AlienAnim.SetBool("isStopped", false);
+        AlienAnim.SetBool("isAbducted", false);
         gameObject.SetActive(false);
         IsUnderBeam = false;
         TargetReached = false;

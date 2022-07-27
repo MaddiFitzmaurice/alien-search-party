@@ -85,14 +85,15 @@ public class PlayerControlState : BaseState
         {
             _player.Beam.Play();
             _speed = _player.BeamSpeed;
+            _player.PlayerAnim.SetFloat("BeamActive", 0.5f);
         }
         else 
         {
             _player.Beam.Stop();
             _speed = _player.MoveSpeed;
+            _player.PlayerAnim.SetFloat("BeamActive", 1f);
         }
 
-        _player.PlayerAnim.SetBool("_beamActive", _beamActive);
     }
 
     void BeamReset()
@@ -100,5 +101,6 @@ public class PlayerControlState : BaseState
         _beamActive = false;
         _player.Beam.Stop();
         _speed = _player.MoveSpeed;
+        _player.PlayerAnim.SetFloat("BeamActive", 1f);
     }
 }

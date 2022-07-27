@@ -140,6 +140,7 @@ MonoBehaviour:
   TargetReached: 0
   IsUnderBeam: 0
   DetectionTime: 5
+  AlienAnim: {fileID: 5625963265672618364}
   _resistTime: 3
   _resistSpeed: 0.15
 --- !u!1001 &5625963265663226908
@@ -213,6 +214,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: e4299bf26a09e9049839e1a1b75e562c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 489fa29999227bd4c97184424184145e, type: 2}
+    - target: {fileID: 9500000, guid: e4299bf26a09e9049839e1a1b75e562c, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 13700000, guid: e4299bf26a09e9049839e1a1b75e562c, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -226,5 +235,10 @@ PrefabInstance:
 --- !u!4 &5625963265663618716 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: e4299bf26a09e9049839e1a1b75e562c, type: 3}
+  m_PrefabInstance: {fileID: 5625963265663226908}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5625963265672618364 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: e4299bf26a09e9049839e1a1b75e562c, type: 3}
   m_PrefabInstance: {fileID: 5625963265663226908}
   m_PrefabAsset: {fileID: 0}
