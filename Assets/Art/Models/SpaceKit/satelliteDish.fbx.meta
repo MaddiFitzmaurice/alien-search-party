@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a230eda90b986f841bc3780dbd3f7fff
+guid: e33082cc2b027724ea9e717e4dce2760
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,23 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: glass
-    second: {fileID: 2100000, guid: 59e6c9b4bf4910946b4a6a7ba534d9ae, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: purple
+      name: _defaultMat
     second: {fileID: 2100000, guid: da55f4aa4e6f3fb46aeed752b2fac1f0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: snowRoad
+      name: dark
     second: {fileID: 2100000, guid: da55f4aa4e6f3fb46aeed752b2fac1f0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: stoneDark
+      name: metal
     second: {fileID: 2100000, guid: da55f4aa4e6f3fb46aeed752b2fac1f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metalDark
+    second: {fileID: 2100000, guid: 774c77251f4dc0049b9f0ef313d1d012, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metalRed
+    second: {fileID: 2100000, guid: 774c77251f4dc0049b9f0ef313d1d012, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

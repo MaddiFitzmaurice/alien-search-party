@@ -1,29 +1,9 @@
 fileFormatVersion: 2
-guid: a230eda90b986f841bc3780dbd3f7fff
+guid: 0fb5c45ebc1b800419ad85c1990a1bac
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: glass
-    second: {fileID: 2100000, guid: 59e6c9b4bf4910946b4a6a7ba534d9ae, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: purple
-    second: {fileID: 2100000, guid: da55f4aa4e6f3fb46aeed752b2fac1f0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: snowRoad
-    second: {fileID: 2100000, guid: da55f4aa4e6f3fb46aeed752b2fac1f0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: stoneDark
-    second: {fileID: 2100000, guid: da55f4aa4e6f3fb46aeed752b2fac1f0, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

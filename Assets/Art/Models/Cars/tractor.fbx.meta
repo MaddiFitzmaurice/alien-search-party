@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a230eda90b986f841bc3780dbd3f7fff
+guid: 87661e4de573aed42bdb0e2d6f7559ab
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,23 +7,38 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: glass
+      name: _defaultMat
+    second: {fileID: 2100000, guid: 4a1f285d0f2705a4c8395afbc208bc26, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: carTire
+    second: {fileID: 2100000, guid: 4a1f285d0f2705a4c8395afbc208bc26, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lightFront
+    second: {fileID: 2100000, guid: 815127bdb762e9948b29b4751632f981, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: paintBlue
+    second: {fileID: 2100000, guid: 774c77251f4dc0049b9f0ef313d1d012, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: paintYellow
+    second: {fileID: 2100000, guid: 774c77251f4dc0049b9f0ef313d1d012, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic
+    second: {fileID: 2100000, guid: 4a1f285d0f2705a4c8395afbc208bc26, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: window
     second: {fileID: 2100000, guid: 59e6c9b4bf4910946b4a6a7ba534d9ae, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: purple
-    second: {fileID: 2100000, guid: da55f4aa4e6f3fb46aeed752b2fac1f0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: snowRoad
-    second: {fileID: 2100000, guid: da55f4aa4e6f3fb46aeed752b2fac1f0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: stoneDark
-    second: {fileID: 2100000, guid: da55f4aa4e6f3fb46aeed752b2fac1f0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
