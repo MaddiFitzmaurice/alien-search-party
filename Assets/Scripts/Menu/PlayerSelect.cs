@@ -97,6 +97,7 @@ public class PlayerSelect : MonoBehaviour
             if (HoverText != null)
             {
                 HoverText((int)MenuOptions.Option3);
+                other.GetComponentInChildren<Animator>().SetBool("Abduct", true);
             }
         }
     }
@@ -127,6 +128,7 @@ public class PlayerSelect : MonoBehaviour
             if (NoHoverText != null)
             {
                 NoHoverText((int)MenuOptions.Option3);
+                other.GetComponentInChildren<Animator>().SetBool("Abduct", false);
             }
         }
     }
