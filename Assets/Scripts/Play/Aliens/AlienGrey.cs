@@ -28,7 +28,7 @@ public class AlienGrey : AlienBase
             {
                 Abduct();
             }
-            else 
+            else if (Collider.enabled)
             {
                 Caught();
             }

@@ -9,8 +9,12 @@ public class Player : MonoBehaviour
     public Rigidbody Rb;
     [HideInInspector]
     public ParticleSystem Beam;
-
+    [HideInInspector]
     public Animator PlayerAnim;
+
+    public AudioSource AudioSourceEngine;
+    public AudioSource AudioSourceBeam;
+    public AudioSource AudioSourceAbduct;
 
     // State Machine and States
     private StateMachine _playerStateMachine;
@@ -75,6 +79,16 @@ public class Player : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         _playerStateMachine.CurrentState.OnTriggerExit(other);
+    }
+
+    public void DoCoroutine(string name)
+    {
+        StartCoroutine(name);
+    }
+
+    public void CancelCoroutine(string name)
+    {
+        StopCoroutine(name);
     }
 
     // Event Trigger Functions

@@ -8,6 +8,7 @@ public class PlayerSelect : MonoBehaviour
     private float _verticalInput;
     private Rigidbody _Rb;
     private CapsuleCollider _beamCollider;
+    private AudioSource _audioSource;
     private int _currentSelection;
 
     public delegate void PlayerSelectEvent();
@@ -24,6 +25,7 @@ public class PlayerSelect : MonoBehaviour
     {
         _Rb = GetComponent<Rigidbody>();
         _beamCollider = GetComponent<CapsuleCollider>();
+        _audioSource = GetComponent<AudioSource>();
         _currentSelection = -1;
     }
 
@@ -59,6 +61,7 @@ public class PlayerSelect : MonoBehaviour
                 if (_currentSelection != -1)
                 {
                     CheckSelection(_currentSelection);
+                    _audioSource.Play();
                 }
             }
             _beamCollider.enabled = true;

@@ -25,6 +25,7 @@ public class PlayerControlState : BaseState
      public override void Enter()
     {
        BeamReset();
+       _player.AudioSourceEngine.Play();
     }
 
     public override void LogicUpdate()
@@ -48,6 +49,7 @@ public class PlayerControlState : BaseState
     public override void Exit()
     {
         BeamReset();
+        _player.AudioSourceEngine.Stop();
     }
 
     public override void OnTriggerEnter(Collider other)
@@ -65,7 +67,9 @@ public class PlayerControlState : BaseState
     {
         if (other.CompareTag("Alien"))
         {
-            other.GetComponent<AlienBase>().IsUnderBeam = _beamActive;
+            var alien = other.GetComponent<AlienBase>();
+            float abductTime = alien.AbductTime;
+            alien.IsUnderBeam = _beamActive;
         }
     }
 
@@ -84,22 +88,24 @@ public class PlayerControlState : BaseState
         if (_beamActive)
         {
             _player.Beam.Play();
+            _player.AudioSourceBeam.Play();
             _speed = _player.BeamSpeed;
             _player.PlayerAnim.SetFloat("BeamActive", 0.5f);
         }
         else 
         {
             _player.Beam.Stop();
+            _player.AudioSourceBeam.Stop();
             _speed = _player.MoveSpeed;
             _player.PlayerAnim.SetFloat("BeamActive", 1f);
         }
-
     }
 
     void BeamReset()
     {
         _beamActive = false;
         _player.Beam.Stop();
+        _player.AudioSourceBeam.Stop();
         _speed = _player.MoveSpeed;
         _player.PlayerAnim.SetFloat("BeamActive", 1f);
     }

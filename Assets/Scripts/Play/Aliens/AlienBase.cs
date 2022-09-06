@@ -5,10 +5,12 @@ using UnityEngine.AI;
 
 public abstract class AlienBase : MonoBehaviour
 {
+    private SkinnedMeshRenderer _meshRenderer;
+    protected Collider Collider;
     protected NavMeshAgent NavMeshAgent;
     protected float Timer;
     [SerializeField]
-    protected float AbductTime;
+    public float AbductTime;
     [SerializeField]
     protected float Speed;
     
@@ -23,9 +25,13 @@ public abstract class AlienBase : MonoBehaviour
 
     public Animator AlienAnim;
 
+    public AudioSource AudioSource;
+
     protected void Awake()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
+        Collider = GetComponent<Collider>();
+        _meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         IsUnderBeam = false;
         TargetReached = false;
         Timer = 0;
@@ -66,7 +72,11 @@ public abstract class AlienBase : MonoBehaviour
     
     protected void Caught()
     {
-        gameObject.SetActive(false);
+        _meshRenderer.enabled = false;
+        Collider.enabled = false;
+        AudioSource.Play();
+
+        StartCoroutine("PlayAbductSound");
     }
 
     public void Reset()
@@ -85,6 +95,14 @@ public abstract class AlienBase : MonoBehaviour
         gameObject.SetActive(true);
         NavMeshAgent.SetDestination(destination.position);
         NavMeshAgent.isStopped = false;
+    }
+
+    IEnumerator PlayAbductSound()
+    {
+        yield return new WaitForSeconds(1f);
+        gameObject.SetActive(false);
+        _meshRenderer.enabled = true;
+        Collider.enabled = true;
     }
 }
 

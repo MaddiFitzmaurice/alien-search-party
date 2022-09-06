@@ -37,7 +37,7 @@ public class AlienGreen : AlienBase
             {
                 Abduct();
             }
-            else 
+            else if (Collider.enabled)
             {
                 Caught();
             }

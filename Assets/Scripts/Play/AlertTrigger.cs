@@ -15,7 +15,6 @@ public class AlertTrigger : MonoBehaviour
     {
         if (other.CompareTag("Alien"))
         {
-            Debug.Log("Hi");
             _alert.Play();
         }
     }
