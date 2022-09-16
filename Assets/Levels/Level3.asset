@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnGreenAliens: 1
   SpawnGreyAliens: 1
-  AmountGreenAliens: 5
-  AmountGreyAliens: 4
-  SpawnRate: 3
+  AmountGreenAliens: 20
+  AmountGreyAliens: 10
+  SpawnChanceGrey: 6
+  SpawnChanceGreyStart: 6
+  SpawnRateBase: 10
+  SpawnRate: 10

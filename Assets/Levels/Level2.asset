@@ -16,4 +16,6 @@ MonoBehaviour:
   SpawnGreyAliens: 1
   AmountGreenAliens: 0
   AmountGreyAliens: 30
-  SpawnRate: 3
+  SpawnChanceGrey: 0
+  SpawnRateBase: 10
+  SpawnRate: 10

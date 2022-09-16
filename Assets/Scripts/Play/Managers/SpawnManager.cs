@@ -58,30 +58,7 @@ public class SpawnManager : MonoBehaviour
         GameManager.Instance.EndLevelState.EnterEndLevelState -= StopSpawning;
     }
 
-    void StartSpawning()
-    {
-        _currentLevel = GameManager.Instance.Level;
-        InvokeRepeating("SpawnAliens", _startSpawnTime, _levels[_currentLevel].SpawnRate);
-    }
-
-    void StopSpawning()
-    {
-        // Stop the spawn method
-        CancelInvoke();
-
-        // Clear all Aliens in the map
-        foreach (List<GameObject> alienList in _aliensList)
-        {
-            foreach (GameObject alien in alienList)
-            {
-                alien.GetComponent<AlienBase>().Reset();
-            }
-        }
-
-        _totalGreenAliensSpawned = 0;
-        _totalGreyAliensSpawned = 0;
-    }
-
+    // Create alien pooling for both types
     void CreateAliens()
     {
         _aliensList = new List<GameObject>[2];
@@ -98,52 +75,175 @@ public class SpawnManager : MonoBehaviour
         return alienList;
     }
 
-    void SpawnAliens()
+    void StartSpawning()
     {
-        // Spawn type of Alien based on level
-        int alienType;
-        alienType = ChooseAlienType();
-
-        // If max amount of Aliens spawned for the level reached, stop spawning
-        if (alienType == -1)
+        _currentLevel = GameManager.Instance.Level;
+        //InvokeRepeating("SpawnAliens", _startSpawnTime, _levels[_currentLevel].SpawnRate);
+        if (_currentLevel == 1)
         {
-            CheckIfLevelEnd();
-            return;
+            StartCoroutine("SpawnLevel1");
         }
-        // If max hasn't been reached yet, keep spawning
-        else 
+        else if(_currentLevel == 2)
         {
-            GameObject alien = ObjectPooler.GetPooledObject(_aliensList[alienType]);
+            StartCoroutine("SpawnLevel2");
+        }
+        else if (_currentLevel == 3)
+        {
+            StartCoroutine("SpawnLevel3");
+        }
+    }
 
-            // Make sure alien is available from the pool
-            if (alien)
+    void StopSpawning()
+    {
+        // Stop the spawn method
+        //CancelInvoke();
+        StopAllCoroutines();
+
+        // Clear all Aliens in the map
+        foreach (List<GameObject> alienList in _aliensList)
+        {
+            foreach (GameObject alien in alienList)
             {
-                // Determine alien's destination
-                Transform destination;
-
-                // If alien spawned is Green, send to a random farm
-                if (alienType == (int)AlienType.Green)
-                {
-                    destination = Farms[Random.Range(0, Farms.Length)];
-                    _totalGreenAliensSpawned += 1;
-                }
-                // Else if alien spawned is Grey, send to a random town
-                else
-                {
-                    destination = Towns[Random.Range(0, Towns.Length)];
-                    _totalGreyAliensSpawned += 1;
-                }
-
-                // Reset alien parameters and spawn
                 alien.GetComponent<AlienBase>().Reset();
-                alien.GetComponent<AlienBase>().Spawn(SpawnPoints[Random.Range(0, SpawnPoints.Length)], destination);
             }
+        }
+
+        _totalGreenAliensSpawned = 0;
+        _totalGreyAliensSpawned = 0;
+    }
+
+     void CheckIfLevelEnd()
+    {
+        // Check to see if player has abducted all aliens
+        var aliensLeft = FindObjectsOfType<AlienBase>();
+        if (aliensLeft.Length == 0)
+        {
+            // Advance to next level
+            if (GameManager.Instance.Level < GameManager.Instance.Levels.Length - 1)
+            {
+                GameManager.Instance.Level += 1;
+            }
+            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndLevelState);   
+        }
+    }
+
+    IEnumerator SpawnLevel1()
+    {
+        Level level1 = _levels[1];
+        level1.SpawnRate = level1.SpawnRateBase;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(level1.SpawnRate);
+
+            if (_totalGreenAliensSpawned == level1.AmountGreenAliens)
+            {
+                CheckIfLevelEnd();
+            }
+            else
+            {
+                SpawnAliens((int)AlienType.Green);
+
+                if (_totalGreenAliensSpawned % 5 == 0 && _totalGreenAliensSpawned != level1.AmountGreenAliens)
+                {
+                    level1.SpawnRate -= 1.0f;
+                }
+            }
+        }
+    }
+
+    IEnumerator SpawnLevel2()
+    {
+        Level level2 = _levels[2];
+        level2.SpawnRate = level2.SpawnRateBase;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(level2.SpawnRate);
+
+            if (_totalGreyAliensSpawned == level2.AmountGreyAliens)
+            {
+                CheckIfLevelEnd();
+            }
+            else
+            {
+                SpawnAliens((int)AlienType.Grey);
+
+                if (_totalGreyAliensSpawned % 5 == 0 && _totalGreyAliensSpawned != level2.AmountGreyAliens)
+                {
+                    level2.SpawnRate -= 1.0f;
+                }
+            }
+        }
+    }
+
+    IEnumerator SpawnLevel3()
+    {
+        Level level3 = _levels[3];
+        level3.SpawnRate = level3.SpawnRateBase;
+        level3.SpawnChanceGrey = level3.SpawnChanceGreyStart;
+        int AmountAllAliens = level3.AmountGreenAliens + level3.AmountGreyAliens;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(level3.SpawnRate);
+
+            int alienType;
+            alienType = ChooseAlienType();
+            if (alienType == -1)
+            {
+                CheckIfLevelEnd();
+            }
+            else
+            {
+                SpawnAliens(alienType);
+                int totalAliensSpawned = _totalGreenAliensSpawned + _totalGreyAliensSpawned;
+
+                if (totalAliensSpawned % 5 == 0 && totalAliensSpawned != AmountAllAliens)
+                {
+                    level3.SpawnRate -= 1.0f;
+                }
+
+                if (_totalGreyAliensSpawned % 5 == 0 && _totalGreyAliensSpawned != level3.AmountGreyAliens)
+                {
+                    level3.SpawnChanceGrey -= 3;
+                }
+            }
+        }
+    }
+    
+    void SpawnAliens(int alienType)
+    {
+        GameObject alien = ObjectPooler.GetPooledObject(_aliensList[alienType]);
+
+        // Make sure alien is available from the pool
+        if (alien)
+        {
+            // Determine alien's destination
+            Transform destination;
+
+            // If alien spawned is Green, send to a random farm
+            if (alienType == (int)AlienType.Green)
+            {
+                destination = Farms[Random.Range(0, Farms.Length)];
+                _totalGreenAliensSpawned += 1;
+            }
+            // Else if alien spawned is Grey, send to a random town
+            else
+            {
+                destination = Towns[Random.Range(0, Towns.Length)];
+                _totalGreyAliensSpawned += 1;
+            }
+
+            // Reset alien parameters and spawn
+            alien.GetComponent<AlienBase>().Reset();
+            alien.GetComponent<AlienBase>().Spawn(SpawnPoints[Random.Range(0, SpawnPoints.Length)], destination);
         }
     }
 
     int ChooseAlienType()
     {
-        // Decide which Alien to spawn based on current level specs
+        // Decide which Alien to spawn based on level specs
         // If both Green and Grey are allowed to spawn
         int type;
 
@@ -216,21 +316,5 @@ public class SpawnManager : MonoBehaviour
         int rnd = Random.Range(1, _levels[_currentLevel].SpawnChanceGrey + 1);
 
         return (rnd == _levels[_currentLevel].SpawnChanceGrey) ? 1 : 0;
-    }
-
-    void CheckIfLevelEnd()
-    {
-        // Check to see if player has abducted all aliens
-        var aliensLeft = FindObjectsOfType<AlienBase>();
-        if (aliensLeft.Length == 0)
-        {
-            // Advance to next level
-            if (GameManager.Instance.Level < GameManager.Instance.Levels.Length - 1)
-            {
-                GameManager.Instance.Level += 1;
-            }
-            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndLevelState);
-            
-        }
-    }
+    } 
 }

@@ -26,6 +26,8 @@ public abstract class AlienBase : MonoBehaviour
     public Animator AlienAnim;
 
     public AudioSource AudioSource;
+    public AudioClip SpawnSound;
+    public AudioClip AbductSound;
 
     protected void Awake()
     {
@@ -74,7 +76,7 @@ public abstract class AlienBase : MonoBehaviour
     {
         _meshRenderer.enabled = false;
         Collider.enabled = false;
-        AudioSource.Play();
+        AudioSource.PlayOneShot(AbductSound);
 
         StartCoroutine("PlayAbductSound");
     }
@@ -93,6 +95,7 @@ public abstract class AlienBase : MonoBehaviour
     {
         gameObject.transform.position = spawnPoint.position;
         gameObject.SetActive(true);
+        AudioSource.PlayOneShot(SpawnSound);
         NavMeshAgent.SetDestination(destination.position);
         NavMeshAgent.isStopped = false;
     }

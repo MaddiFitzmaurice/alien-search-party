@@ -91,6 +91,8 @@ MonoBehaviour:
   DetectionTime: 3
   AlienAnim: {fileID: 4816825087091787750}
   AudioSource: {fileID: 1334555437282755361}
+  SpawnSound: {fileID: 8300000, guid: 634e40df2f8fb92489cd8c9f27d7f9b8, type: 3}
+  AbductSound: {fileID: 8300000, guid: 53078d2a8858afb44816e9907f49d876, type: 3}
 --- !u!82 &1334555437282755361
 AudioSource:
   m_ObjectHideFlags: 0

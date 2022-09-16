@@ -21,9 +21,12 @@ public class Level : ScriptableObject
 
     [HideInInspector]
     public int SpawnChanceGrey = 0;
+    [HideInInspector]
+    public int SpawnChanceGreyStart;
 
     // Spawn Rate
     [Header("Spawn Rate")]
+    public float SpawnRateBase;
     public float SpawnRate;
 }
 
@@ -40,7 +43,8 @@ public class LevelEditor : Editor
         {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Grey Alien Spawn Chance", EditorStyles.boldLabel);
-            level.SpawnChanceGrey = EditorGUILayout.IntSlider("1 in X Chance:", level.SpawnChanceGrey, 2, 100);
+            level.SpawnChanceGreyStart = EditorGUILayout.IntField("Starting Spawn Chance", level.SpawnChanceGreyStart);
+            level.SpawnChanceGrey = EditorGUILayout.IntSlider("1 in X Chance", level.SpawnChanceGrey, 2, 100);
         }
 
         EditorGUILayout.Space();
