@@ -146,7 +146,7 @@ public class SpawnManager : MonoBehaviour
 
                 if (_totalGreenAliensSpawned % 5 == 0 && _totalGreenAliensSpawned != level1.AmountGreenAliens)
                 {
-                    level1.SpawnRate -= 1.0f;
+                    level1.SpawnRate -= level1.SpawnRateChange;
                 }
             }
         }
@@ -171,7 +171,7 @@ public class SpawnManager : MonoBehaviour
 
                 if (_totalGreyAliensSpawned % 5 == 0 && _totalGreyAliensSpawned != level2.AmountGreyAliens)
                 {
-                    level2.SpawnRate -= 1.0f;
+                    level2.SpawnRate -= level2.SpawnRateChange;
                 }
             }
         }
@@ -201,12 +201,12 @@ public class SpawnManager : MonoBehaviour
 
                 if (totalAliensSpawned % 5 == 0 && totalAliensSpawned != AmountAllAliens)
                 {
-                    level3.SpawnRate -= 1.0f;
+                    level3.SpawnRate -= level3.SpawnRateChange;
                 }
 
-                if (_totalGreyAliensSpawned % 5 == 0 && _totalGreyAliensSpawned != level3.AmountGreyAliens)
+                if (totalAliensSpawned % 15 == 0 && totalAliensSpawned != AmountAllAliens)
                 {
-                    level3.SpawnChanceGrey -= 3;
+                    level3.SpawnChanceGrey =- level3.SpawnChanceGreyChange;
                 }
             }
         }

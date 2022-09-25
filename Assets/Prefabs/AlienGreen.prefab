@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37c988a83ad84dc489f3262adce39685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbductTime: 1.5
+  AbductTime: 1
   Speed: 0.3
   TargetReached: 0
   IsUnderBeam: 0
