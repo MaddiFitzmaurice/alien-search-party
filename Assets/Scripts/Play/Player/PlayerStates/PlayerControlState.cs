@@ -58,7 +58,12 @@ public class PlayerControlState : BaseState
         {
             if (other.CompareTag("Alien"))
             {
-                other.GetComponent<AlienBase>().IsUnderBeam = true;
+                var alien = other.GetComponent<AlienBase>();
+                
+                if (alien.CanAbduct) 
+                {
+                    alien.IsUnderBeam = true;
+                }
             }
         }
     }
@@ -68,8 +73,11 @@ public class PlayerControlState : BaseState
         if (other.CompareTag("Alien"))
         {
             var alien = other.GetComponent<AlienBase>();
-            float abductTime = alien.AbductTime;
-            alien.IsUnderBeam = _beamActive;
+
+            if (alien.CanAbduct)
+            {
+                alien.IsUnderBeam = _beamActive;
+            }
         }
     }
 

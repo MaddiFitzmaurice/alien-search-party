@@ -21,6 +21,8 @@ public abstract class AlienBase : MonoBehaviour
     // If Alien is under player's UFO abduction beam
     public bool IsUnderBeam;
 
+    public bool CanAbduct;
+
     public float DetectionTime;
 
     public Animator AlienAnim;
@@ -28,6 +30,7 @@ public abstract class AlienBase : MonoBehaviour
     public AudioSource AudioSource;
     public AudioClip SpawnSound;
     public AudioClip AbductSound;
+    public AudioClip LoseSound;
 
     protected void Awake()
     {
@@ -36,6 +39,7 @@ public abstract class AlienBase : MonoBehaviour
         _meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         IsUnderBeam = false;
         TargetReached = false;
+        CanAbduct = false;
         Timer = 0;
     }
 
@@ -57,13 +61,14 @@ public abstract class AlienBase : MonoBehaviour
     protected void ReachedTarget()
     {
         AlienAnim.SetBool("isStopped", true);
-        Invoke("WasDetected", DetectionTime);
+        GameManager.Instance.PlayState.Failed = true;
+        AudioSource.PlayOneShot(LoseSound);
+        Invoke("FinishFailState", DetectionTime);
     }
 
-    protected void WasDetected()
+    protected void FinishFailState()
     {
         gameObject.SetActive(false);
-        GameManager.Instance.PlayState.Failed = true;
         GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndLevelState);
     }
 

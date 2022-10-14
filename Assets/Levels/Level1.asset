@@ -19,6 +19,6 @@ MonoBehaviour:
   SpawnChanceGrey: 0
   SpawnChanceGreyStart: 0
   SpawnChanceGreyChange: 0
-  SpawnRate: 6
+  SpawnRate: -2021
   SpawnRateBase: 10
   SpawnRateChange: 1

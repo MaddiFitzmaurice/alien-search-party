@@ -93,6 +93,7 @@ MonoBehaviour:
   AudioSource: {fileID: -4423690001202546886}
   SpawnSound: {fileID: 8300000, guid: 9ba59806396774349a7f85bd6c2ff1aa, type: 3}
   AbductSound: {fileID: 8300000, guid: 53078d2a8858afb44816e9907f49d876, type: 3}
+  LoseSound: {fileID: 8300000, guid: 740b8393e25c3ab4999a66ebac740527, type: 3}
   _resistTime: 3
   _resistSpeed: 0.15
 --- !u!82 &-4423690001202546886
@@ -107,7 +108,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 53078d2a8858afb44816e9907f49d876, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -118,7 +119,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -151,7 +152,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

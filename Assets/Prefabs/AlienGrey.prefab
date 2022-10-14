@@ -46,7 +46,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5000001
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
@@ -93,6 +93,7 @@ MonoBehaviour:
   AudioSource: {fileID: 1334555437282755361}
   SpawnSound: {fileID: 8300000, guid: 634e40df2f8fb92489cd8c9f27d7f9b8, type: 3}
   AbductSound: {fileID: 8300000, guid: 53078d2a8858afb44816e9907f49d876, type: 3}
+  LoseSound: {fileID: 8300000, guid: f77f5b59051a5234aa6db31b4f996945, type: 3}
 --- !u!82 &1334555437282755361
 AudioSource:
   m_ObjectHideFlags: 0
@@ -116,7 +117,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -149,7 +150,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
