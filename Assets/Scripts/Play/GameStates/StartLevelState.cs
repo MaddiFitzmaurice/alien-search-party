@@ -1,17 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class StartLevelState : BaseState
 {
-    public delegate void StartLevelStateEvent();
-    public event StartLevelStateEvent EnterStartLevelState;
+    public static Action EnterStartLevelStateEvent;
+
     public override void Enter()
     {
-        if (EnterStartLevelState != null)
-        {
-            EnterStartLevelState();
-        }
+        EnterStartLevelStateEvent?.Invoke();
         Debug.Log("Start Level State Entered");
     }
 

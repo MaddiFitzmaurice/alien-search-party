@@ -2,68 +2,101 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public abstract class AlienBase : MonoBehaviour
 {
+    public static Action<int> AlienSpawnEvent;
+    public static Action<int> AlienAbductEvent;
     private SkinnedMeshRenderer _meshRenderer;
     protected Collider Collider;
     protected NavMeshAgent NavMeshAgent;
-    protected float Timer;
+    
     [SerializeField]
-    public float AbductTime;
+    protected float AbductTime;
     [SerializeField]
     protected float Speed;
-    
-    // If Alien has reached target
-    [HideInInspector]
-    public bool TargetReached;
-    [HideInInspector]
-    // If Alien is under player's UFO abduction beam
-    public bool IsUnderBeam;
 
-    public bool CanAbduct;
+    [SerializeField]
+    protected Animator AlienAnim;
+    [SerializeField]
+    protected AudioSource AudioSource;
+    [SerializeField]
+    protected AudioClip SpawnSound;
 
-    public float DetectionTime;
+    // Aliens active in scene
+    private static int _active = 0;
 
-    public Animator AlienAnim;
-
-    public AudioSource AudioSource;
-    public AudioClip SpawnSound;
-    public AudioClip AbductSound;
-    public AudioClip LoseSound;
+    private bool _canAbduct;
+    private bool _wasAbducted;
 
     protected void Awake()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        Collider = GetComponent<Collider>();
         _meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        IsUnderBeam = false;
-        TargetReached = false;
-        CanAbduct = false;
-        Timer = 0;
+    }
+
+    public virtual void OnEnable()
+    {   
+        // Avoid duplicate addition
+        if (!_wasAbducted)
+        {
+            _active++;
+        }
+
+        Reveal(false);
+    }
+
+    public virtual void OnDisable()
+    {
+        // Avoid duplicate subtraction
+        if (!_wasAbducted)
+        {
+            _active--;
+        }
+
+        CancelInvoke();
+    }
+
+    public void Spawn(Transform spawnPoint, Transform destination)
+    {
+        gameObject.transform.position = spawnPoint.position;
+        gameObject.SetActive(true);
+        NavMeshAgent.SetDestination(destination.position);
+        Move();
     }
 
     protected virtual void Move()
     {
+        CancelInvoke();
         NavMeshAgent.isStopped = false;
         NavMeshAgent.speed = Speed;
         AlienAnim.SetFloat("Speed", NavMeshAgent.speed);
         AlienAnim.SetBool("isAbducted", NavMeshAgent.isStopped);
     }
 
-    protected void Abduct()
+    protected virtual void StopMoving()
     {
         NavMeshAgent.isStopped = true;
         AlienAnim.SetFloat("Speed", NavMeshAgent.speed);
         AlienAnim.SetBool("isAbducted", NavMeshAgent.isStopped);
+        Invoke("Abducted", AbductTime);
+    }
+
+    protected void Abducted()
+    {
+        _wasAbducted = true;
+        _active--;
+        AlienAbductEvent?.Invoke(GetActiveAliensNum());
+        gameObject.SetActive(false);
     }
 
     protected void ReachedTarget()
     {
+        NavMeshAgent.isStopped = true;
         AlienAnim.SetBool("isStopped", true);
         GameManager.Instance.PlayState.Failed = true;
-        AudioSource.PlayOneShot(LoseSound);
-        Invoke("FinishFailState", DetectionTime);
+        Invoke("FinishFailState", 1f);
     }
 
     protected void FinishFailState()
@@ -72,45 +105,53 @@ public abstract class AlienBase : MonoBehaviour
         GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndLevelState);
     }
 
-    protected void OnDisable()
+    public void OnTriggerEnter(Collider other)
     {
-        CancelInvoke();
-    }
-    
-    protected void Caught()
-    {
-        _meshRenderer.enabled = false;
-        Collider.enabled = false;
-        AudioSource.PlayOneShot(AbductSound);
-
-        StartCoroutine("PlayAbductSound");
-    }
-
-    public void Reset()
-    {
-        AlienAnim.SetBool("isStopped", false);
-        AlienAnim.SetBool("isAbducted", false);
-        gameObject.SetActive(false);
-        IsUnderBeam = false;
-        TargetReached = false;
-        Timer = 0;
+        // If Alien is under Player's beam
+        if (other.tag == "Player" && _canAbduct)
+        {
+            StopMoving();
+        }
+        
+        // If Alien reaches an end point
+        if (other.tag == "EndPoint")
+        {
+            ReachedTarget();
+        }
     }
 
-    public void Spawn(Transform spawnPoint, Transform destination)
+    public void OnTriggerExit(Collider other)
     {
-        gameObject.transform.position = spawnPoint.position;
-        gameObject.SetActive(true);
-        AudioSource.PlayOneShot(SpawnSound);
-        NavMeshAgent.SetDestination(destination.position);
-        NavMeshAgent.isStopped = false;
+        // Reveal Alien when it leaves spawn point
+        if (other.tag == "SpawnPoint")
+        {
+            if (_wasAbducted)
+            {
+                _active++;
+                _wasAbducted = false;
+            }
+
+            Reveal(true);
+            AudioSource.PlayOneShot(SpawnSound);
+            AlienSpawnEvent?.Invoke(GetActiveAliensNum());
+        }
+
+        // If Alien is no longer under Player's beam
+        if (other.tag == "Player")
+        {
+            Move();
+        }
     }
 
-    IEnumerator PlayAbductSound()
+    public int GetActiveAliensNum()
     {
-        yield return new WaitForSeconds(1f);
-        gameObject.SetActive(false);
-        _meshRenderer.enabled = true;
-        Collider.enabled = true;
+        return _active;
+    }
+
+    public void Reveal(bool reveal)
+    {
+        _meshRenderer.enabled = reveal;
+        _canAbduct = reveal;
     }
 }
 

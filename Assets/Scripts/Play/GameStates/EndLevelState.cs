@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EndLevelState : BaseState
 {
-    public delegate void EndLevelStateEvent();
-    public delegate void EndLevelStateOutcomeEvent(int num);
-    public event EndLevelStateEvent EnterEndLevelState;
-    public event EndLevelStateOutcomeEvent ShowEndLevelScreen;
+    public static Action EnterEndLevelStateEvent;
+    public static Action<int> ShowEndLevelScreenEvent;
 
     private int _screenDisplayed;
 
@@ -23,15 +22,10 @@ public class EndLevelState : BaseState
             _screenDisplayed = (int)MenuType.Win;
         }
 
-        if (ShowEndLevelScreen != null)
-        {
-            ShowEndLevelScreen(_screenDisplayed);
-        }
-
-        if (EnterEndLevelState != null)
-        {
-            EnterEndLevelState();
-        }
+        ShowEndLevelScreenEvent?.Invoke(_screenDisplayed);
+        
+        EnterEndLevelStateEvent?.Invoke();
+        
 
         Debug.Log("End Level State Entered");
     }
@@ -42,10 +36,9 @@ public class EndLevelState : BaseState
 
     public override void Exit()
     {
-        if (ShowEndLevelScreen != null)
-        {
-            ShowEndLevelScreen(_screenDisplayed);
-        }
+        
+        ShowEndLevelScreenEvent?.Invoke(_screenDisplayed);
+        
         Debug.Log("End Level State Left");
     }
 }

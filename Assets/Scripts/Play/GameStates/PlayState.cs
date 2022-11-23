@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayState : BaseState
 {
-    // Set up a broadcast to indicate to all state machines to change states
-    public delegate void PlayStateEvent();
-    public event PlayStateEvent EnterPlayState;
-    public event PlayStateEvent PauseGame;
+    public static Action EnterPlayStateEvent;
+    public static Action PauseGameEvent;
 
     public bool Failed;
 
@@ -15,10 +14,7 @@ public class PlayState : BaseState
     {
         Failed = false;
         Debug.Log("Play State entered");
-        if (EnterPlayState != null)
-        {
-            EnterPlayState();
-        }
+        EnterPlayStateEvent?.Invoke(); 
     }
 
     public override void LogicUpdate()
@@ -26,10 +22,7 @@ public class PlayState : BaseState
         // Pause the game
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (PauseGame != null)
-            {
-                PauseGame();
-            }
+            PauseGameEvent?.Invoke();
         }
     }
 }

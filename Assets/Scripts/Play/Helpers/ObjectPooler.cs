@@ -23,15 +23,27 @@ public static class ObjectPooler
     //Retrieve a pooled object if it is not active in the hierarchy
     public static GameObject GetPooledObject(List<GameObject> pooledObjects)
     {
-        for (int i = 0; i < pooledObjects.Count; i++)
+        foreach (GameObject obj in pooledObjects)
         {
-            if (!pooledObjects[i].activeInHierarchy)
+            if (!obj.activeInHierarchy)
             {
-                return pooledObjects[i];
+                return obj;
             }
         }
 
         return null;
+    }
+
+    // Return objects to pool
+    public static void ReturnObjectsToPool(List<GameObject> pooledObjects)
+    {
+        foreach (GameObject obj in pooledObjects)
+        {
+            if (obj.activeInHierarchy)
+            {
+                obj.SetActive(false);
+            }
+        }
     }
 
     // Assign parent transform for pooled objects to organise hierarchy

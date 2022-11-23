@@ -60,7 +60,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5000001
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -86,14 +86,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbductTime: 1
   Speed: 1
-  TargetReached: 0
-  IsUnderBeam: 0
-  DetectionTime: 3
   AlienAnim: {fileID: 4816825087091787750}
   AudioSource: {fileID: 1334555437282755361}
   SpawnSound: {fileID: 8300000, guid: 634e40df2f8fb92489cd8c9f27d7f9b8, type: 3}
-  AbductSound: {fileID: 8300000, guid: 53078d2a8858afb44816e9907f49d876, type: 3}
-  LoseSound: {fileID: 8300000, guid: f77f5b59051a5234aa6db31b4f996945, type: 3}
 --- !u!82 &1334555437282755361
 AudioSource:
   m_ObjectHideFlags: 0

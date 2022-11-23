@@ -14,23 +14,34 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject _mainMenuButton;
 
+    [SerializeField]
+    private TextMeshProUGUI _aliensRemainingText;
+
     // Used to toggle each menu
     private bool _toggle;
 
-    void Start()
+    void OnEnable()
     {
         // Subscribe to trigger events
-        GameManager.Instance.PlayState.PauseGame += TogglePauseMenu;
-        GameManager.Instance.EndLevelState.ShowEndLevelScreen += ToggleEndScreen;
+        StartLevelState.EnterStartLevelStateEvent += ResetPlayUI;
+        PlayState.PauseGameEvent += TogglePauseMenu;
+        EndLevelState.ShowEndLevelScreenEvent += ToggleEndScreen;
 
+        AlienBase.AlienSpawnEvent += UpdatePlayUI;
+        AlienBase.AlienAbductEvent += UpdatePlayUI;
+        
         _toggle = false;
     }
 
     void OnDisable()
     {
         // Unsubscribe to trigger events
-        GameManager.Instance.PlayState.PauseGame -= TogglePauseMenu;
-        GameManager.Instance.EndLevelState.ShowEndLevelScreen -= ToggleEndScreen;
+        StartLevelState.EnterStartLevelStateEvent -= ResetPlayUI;
+        PlayState.PauseGameEvent -= TogglePauseMenu;
+        EndLevelState.ShowEndLevelScreenEvent -= ToggleEndScreen;
+
+        AlienBase.AlienSpawnEvent -= UpdatePlayUI;
+        AlienBase.AlienAbductEvent -= UpdatePlayUI;
     }
 
     public void ReturnToMainMenu()
@@ -44,6 +55,17 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.StartLevelState);
     }
 
+    void UpdatePlayUI(int aliensRemaining)
+    {
+        Debug.Log(aliensRemaining);
+        _aliensRemainingText.text = "Aliens Remaining: " + aliensRemaining;
+    }
+
+    void ResetPlayUI()
+    {
+        _aliensRemainingText.text = "Aliens Remaining: 0";
+    }
+
     // Toggles the pause menu on and off
     void TogglePauseMenu()
     {
@@ -51,6 +73,12 @@ public class UIManager : MonoBehaviour
         Time.timeScale = _toggle == true ? 0 : 1.0f;
         _menus[(int)MenuType.Pause].SetActive(_toggle);
         ToggleMainMenuButton();
+        TogglePlayUI();
+    }
+
+    void TogglePlayUI()
+    {
+        _aliensRemainingText.enabled = !_toggle;
     }
 
     void ToggleEndScreen(int screenDisplay)

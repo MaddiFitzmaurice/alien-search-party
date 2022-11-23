@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Animator PlayerAnim;
 
+    public CapsuleCollider BeamTrigger;
+
     public AudioSource AudioSourceEngine;
     public AudioSource AudioSourceBeam;
     public AudioSource AudioSourceAbduct;
@@ -41,17 +43,17 @@ public class Player : MonoBehaviour
     void Start()
     {
         // Set up event triggers for state changes
-        GameManager.Instance.PlayState.EnterPlayState += EnterPlayerControlState;
-        GameManager.Instance.StartLevelState.EnterStartLevelState += EnterPlayerNoControlState;
-        GameManager.Instance.EndLevelState.EnterEndLevelState += EnterPlayerNoControlState;
+        StartLevelState.EnterStartLevelStateEvent += EnterPlayerNoControlState;
+        PlayState.EnterPlayStateEvent += EnterPlayerControlState;
+        EndLevelState.EnterEndLevelStateEvent += EnterPlayerNoControlState;
     }
 
     void OnDisable()
     {
         // Unsubscribe from event triggers
-        GameManager.Instance.PlayState.EnterPlayState -= EnterPlayerControlState;
-        GameManager.Instance.StartLevelState.EnterStartLevelState -= EnterPlayerNoControlState;
-        GameManager.Instance.EndLevelState.EnterEndLevelState -= EnterPlayerNoControlState;
+        StartLevelState.EnterStartLevelStateEvent -= EnterPlayerNoControlState;
+        PlayState.EnterPlayStateEvent -= EnterPlayerControlState;
+        EndLevelState.EnterEndLevelStateEvent -= EnterPlayerNoControlState;
     }
 
     // Update State Functions

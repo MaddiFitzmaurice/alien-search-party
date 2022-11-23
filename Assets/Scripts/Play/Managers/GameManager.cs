@@ -11,24 +11,9 @@ public class GameManager : MonoBehaviour
     public StateMachine GMStateMachine { get; private set; }
     public StartLevelState StartLevelState { get; private set; }
     public PlayState PlayState { get; private set; }
+    public BarkState BarkState { get; private set; }
+    public CutsceneState CutsceneState {get; private set; }
     public EndLevelState EndLevelState { get; private set; }
-
-    public Level[] Levels;
-    // Ensure level is no greater than 3
-    [SerializeField]
-    private int _level;
-    public int Level
-    {
-        get { return _level; }
-        set 
-        {
-            _level = value;
-            if (_level > Levels.Length - 1)
-            {
-                _level = Levels.Length - 1;
-            }
-        }
-    }
 
     void Awake()
     {
@@ -46,6 +31,8 @@ public class GameManager : MonoBehaviour
         // Set up states
         StartLevelState = new StartLevelState();
         PlayState = new PlayState();
+        BarkState = new BarkState();
+        CutsceneState = new CutsceneState();
         EndLevelState = new EndLevelState();
 
         // Enter IntroState
@@ -54,14 +41,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (!MenuData.StoryModeOn)
-        {
-            Level = MenuData.LevelSelect;
-        }
-        else
-        {
-            Level = 0;
-        }
         GMStateMachine.ChangeState(StartLevelState);
     }
 

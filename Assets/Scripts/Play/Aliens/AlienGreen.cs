@@ -9,45 +9,18 @@ public class AlienGreen : AlienBase
     [SerializeField]
     private float _resistSpeed;
 
-    void Update()
-    {
-        if (!IsUnderBeam)
-        {
-            if (!TargetReached)
-            {
-                if (NavMeshAgent.remainingDistance < 0.5f)
-                {
-                    TargetReached = true;
-                    ReachedTarget();
-                }
-                else 
-                {
-                    Move();
-                    Timer = 0;
-                }
-            }
-        }
-        else
-        {
-            if (Timer < _resistTime)
-            {
-                Resist();
-            }
-            else if (Timer > _resistTime && Timer < _resistTime + AbductTime)
-            {
-                Abduct();
-            }
-            else if (Collider.enabled)
-            {
-                Caught();
-            }
-
-            Timer += Time.deltaTime;
-        }
-    }
-
-    private void Resist()
+    protected override void StopMoving()
     {
         NavMeshAgent.speed = _resistSpeed;
+        AlienAnim.SetFloat("Speed", NavMeshAgent.speed);
+        Invoke("StopResisting", _resistTime);
+    }
+
+    private void StopResisting()
+    {
+        NavMeshAgent.isStopped = true;
+        AlienAnim.SetFloat("Speed", NavMeshAgent.speed);
+        AlienAnim.SetBool("isAbducted", NavMeshAgent.isStopped);
+        Invoke("Abducted", AbductTime);
     }
 }
