@@ -8,6 +8,7 @@ public abstract class AlienBase : MonoBehaviour
 {
     public static Action<int> AlienSpawnEvent;
     public static Action<int> AlienAbductEvent;
+    public static Action<GameObject> AlienReachedDestEvent;
     private SkinnedMeshRenderer _meshRenderer;
     protected Collider Collider;
     protected NavMeshAgent NavMeshAgent;
@@ -23,6 +24,8 @@ public abstract class AlienBase : MonoBehaviour
     protected AudioSource AudioSource;
     [SerializeField]
     protected AudioClip SpawnSound;
+
+    private Vector3 _endRotation = new Vector3(0, 180, 0);
 
     // Aliens active in scene
     private static int _active = 0;
@@ -91,17 +94,13 @@ public abstract class AlienBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    // When Alien reaches destination
     protected void ReachedTarget()
     {
         NavMeshAgent.isStopped = true;
         AlienAnim.SetBool("isStopped", true);
-        GameManager.Instance.PlayState.Failed = true;
-        Invoke("FinishFailState", 1f);
-    }
-
-    protected void FinishFailState()
-    {
-        gameObject.SetActive(false);
+        transform.eulerAngles = _endRotation;
+        AlienReachedDestEvent?.Invoke(this.gameObject);
         GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndLevelState);
     }
 

@@ -11,21 +11,8 @@ public class EndLevelState : BaseState
     private int _screenDisplayed;
 
     public override void Enter()
-    {
-        // Decide whether win or lose screen pops up
-        if (GameManager.Instance.PlayState.Failed)
-        {
-            _screenDisplayed = (int)MenuType.Lose;
-        }
-        else
-        {
-            _screenDisplayed = (int)MenuType.Win;
-        }
-
-        ShowEndLevelScreenEvent?.Invoke(_screenDisplayed);
-        
+    { 
         EnterEndLevelStateEvent?.Invoke();
-        
 
         Debug.Log("End Level State Entered");
     }
@@ -35,10 +22,7 @@ public class EndLevelState : BaseState
     }
 
     public override void Exit()
-    {
-        
-        ShowEndLevelScreenEvent?.Invoke(_screenDisplayed);
-        
+    {        
         Debug.Log("End Level State Left");
     }
 }

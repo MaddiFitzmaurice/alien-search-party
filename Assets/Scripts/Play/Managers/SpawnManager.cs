@@ -49,10 +49,10 @@ public class SpawnManager : MonoBehaviour
          // Subscribe to Events
         StartLevelState.EnterStartLevelStateEvent += ResetSpawner;
         PlayState.EnterPlayStateEvent += StartSpawning;
-        EndLevelState.EnterEndLevelStateEvent += StopSpawning;
 
         LevelManager.SendCurrentLevel += GetCurrentLevel;
         
+        AlienBase.AlienReachedDestEvent += LoseEventHandler;
         AlienBase.AlienAbductEvent += AbductEventHandler;
     }
 
@@ -61,10 +61,10 @@ public class SpawnManager : MonoBehaviour
         // Unsubscribe from Events
         StartLevelState.EnterStartLevelStateEvent -= ResetSpawner;
         PlayState.EnterPlayStateEvent -= StartSpawning;
-        EndLevelState.EnterEndLevelStateEvent -= StopSpawning;
 
         LevelManager.SendCurrentLevel -= GetCurrentLevel;
         
+        AlienBase.AlienReachedDestEvent -= LoseEventHandler;
         AlienBase.AlienAbductEvent -= AbductEventHandler;
     }
 
@@ -77,7 +77,8 @@ public class SpawnManager : MonoBehaviour
 
     void ResetSpawner()
     {
-        StopSpawning();
+        StopAllCoroutines();
+        ReturnAllAliensToPool();
         _totalGreenAliensSpawned = 0;
         _totalGreyAliensSpawned = 0;
         _currentLevel.SpawnRate = _currentLevel.SpawnRateBase;
@@ -103,12 +104,6 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine("SpawnAliens");
     }
 
-    void StopSpawning()
-    {
-        StopAllCoroutines();
-        ReturnAllAliensToPool();
-    }
-
     // Listens for when player abducts an Alien
     void AbductEventHandler(int activeAliensLeft)
     {        
@@ -125,6 +120,23 @@ public class SpawnManager : MonoBehaviour
             if (MenuData.StoryModeOn && (_totalAliensSpawned % 10 == 0))
             {
                 GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.BarkState);
+            }
+        }
+    }
+
+    // Keep Alien that lost the game on display
+    void LoseEventHandler(GameObject loseAlien)
+    {
+        StopAllCoroutines();
+
+        foreach (List<GameObject> list in _aliensList)
+        {
+            foreach (GameObject alien in list)
+            {
+                if (alien!= loseAlien && alien.activeInHierarchy)
+                {
+                    alien.SetActive(false);
+                }
             }
         }
     }

@@ -17,31 +17,33 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _aliensRemainingText;
 
-    // Used to toggle each menu
+    // Used to toggle pause menu
     private bool _toggle;
 
     void OnEnable()
     {
         // Subscribe to trigger events
-        StartLevelState.EnterStartLevelStateEvent += ResetPlayUI;
+        StartLevelState.EnterStartLevelStateEvent += ResetUI;
         PlayState.PauseGameEvent += TogglePauseMenu;
-        EndLevelState.ShowEndLevelScreenEvent += ToggleEndScreen;
 
         AlienBase.AlienSpawnEvent += UpdatePlayUI;
         AlienBase.AlienAbductEvent += UpdatePlayUI;
-        
-        _toggle = false;
+        AlienBase.AlienReachedDestEvent += DisplayLoseScreen;
+        SpawnManager.AllAliensCaughtEvent += DisplayWinScreen;
+
+        _toggle = false;  
     }
 
     void OnDisable()
     {
         // Unsubscribe to trigger events
-        StartLevelState.EnterStartLevelStateEvent -= ResetPlayUI;
+        StartLevelState.EnterStartLevelStateEvent -= ResetUI;
         PlayState.PauseGameEvent -= TogglePauseMenu;
-        EndLevelState.ShowEndLevelScreenEvent -= ToggleEndScreen;
 
         AlienBase.AlienSpawnEvent -= UpdatePlayUI;
         AlienBase.AlienAbductEvent -= UpdatePlayUI;
+        AlienBase.AlienReachedDestEvent -= DisplayLoseScreen;
+        SpawnManager.AllAliensCaughtEvent -= DisplayWinScreen;
     }
 
     public void ReturnToMainMenu()
@@ -57,44 +59,49 @@ public class UIManager : MonoBehaviour
 
     void UpdatePlayUI(int aliensRemaining)
     {
-        Debug.Log(aliensRemaining);
         _aliensRemainingText.text = "Aliens Remaining: " + aliensRemaining;
     }
 
-    void ResetPlayUI()
+    void ResetUI()
     {
         _aliensRemainingText.text = "Aliens Remaining: 0";
+        DisplayMainMenuButton(false);
+
+        foreach (GameObject menu in _menus)
+        {
+            menu.SetActive(false);
+        }
     }
 
     // Toggles the pause menu on and off
     void TogglePauseMenu()
     {
-        ToggleChange();
+        _toggle = !_toggle;
         Time.timeScale = _toggle == true ? 0 : 1.0f;
         _menus[(int)MenuType.Pause].SetActive(_toggle);
-        ToggleMainMenuButton();
-        TogglePlayUI();
+        DisplayMainMenuButton(_toggle);
+        DisplayPlayUI(_toggle);
     }
 
-    void TogglePlayUI()
+    void DisplayMainMenuButton(bool toggle)
     {
-        _aliensRemainingText.enabled = !_toggle;
+        _mainMenuButton.SetActive(toggle);
     }
 
-    void ToggleEndScreen(int screenDisplay)
+    void DisplayPlayUI(bool toggle)
     {
-        ToggleChange();
-        _menus[screenDisplay].SetActive(_toggle);
-        ToggleMainMenuButton();
+        _aliensRemainingText.enabled = !toggle;
     }
 
-    void ToggleMainMenuButton()
+    void DisplayLoseScreen(GameObject alien)
     {
-        _mainMenuButton.SetActive(_toggle);
+        _menus[(int)MenuType.Lose].SetActive(true);
+        DisplayMainMenuButton(true);
     }
 
-    void ToggleChange()
+    void DisplayWinScreen()
     {
-        _toggle = !_toggle;
+        _menus[(int)MenuType.Win].SetActive(true);
+        DisplayMainMenuButton(true);
     }
 }

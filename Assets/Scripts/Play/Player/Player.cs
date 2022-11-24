@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     public float MoveSpeed;
     public float BeamSpeed;
 
+    [SerializeField]
+    private Vector3 _resetPosition; 
+
     void Awake()
     {
         // Set up components
@@ -40,10 +43,11 @@ public class Player : MonoBehaviour
         _playerStateMachine = new StateMachine(_playerNoControlState);
     }
 
-    void Start()
+    void OnEnable()
     {
         // Set up event triggers for state changes
         StartLevelState.EnterStartLevelStateEvent += EnterPlayerNoControlState;
+        StartLevelState.EnterStartLevelStateEvent += ResetPlayerPosition;
         PlayState.EnterPlayStateEvent += EnterPlayerControlState;
         EndLevelState.EnterEndLevelStateEvent += EnterPlayerNoControlState;
     }
@@ -52,6 +56,7 @@ public class Player : MonoBehaviour
     {
         // Unsubscribe from event triggers
         StartLevelState.EnterStartLevelStateEvent -= EnterPlayerNoControlState;
+        StartLevelState.EnterStartLevelStateEvent -= ResetPlayerPosition;
         PlayState.EnterPlayStateEvent -= EnterPlayerControlState;
         EndLevelState.EnterEndLevelStateEvent -= EnterPlayerNoControlState;
     }
@@ -108,5 +113,10 @@ public class Player : MonoBehaviour
     void ChangeState(BaseState newState)
     {
         _playerStateMachine.ChangeState(newState);
+    }
+
+    void ResetPlayerPosition()
+    {
+        transform.position = _resetPosition;
     }
 }

@@ -79,6 +79,7 @@ public class PlayerControlState : BaseState
     public void BeamReset()
     {
         _beamActive = false;
+        _player.BeamTrigger.center = _beamReducedY;
         _player.Beam.Stop();
         _player.AudioSourceBeam.Stop();
         _speed = _player.MoveSpeed;

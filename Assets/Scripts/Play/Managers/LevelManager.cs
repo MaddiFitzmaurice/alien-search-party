@@ -13,7 +13,6 @@ public class LevelManager : MonoBehaviour
     private Level[] _levels;
     [SerializeField]
     private int _currentLevel;
-    private bool _failedLevel;
 
     void OnEnable()
     {
@@ -43,7 +42,6 @@ public class LevelManager : MonoBehaviour
 
     void SendCurrentLevelEvent()
     {
-        _failedLevel = false;
         SendCurrentLevel?.Invoke(_levels[_currentLevel]);
     }
 
