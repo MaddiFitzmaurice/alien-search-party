@@ -17,13 +17,13 @@ public class SecondCamera : MonoBehaviour
     void OnEnable()
     {
         StartLevelState.EnterStartLevelStateEvent += HideAlienCamera;
-        AlienBase.AlienReachedDestEvent += ShowAlienCamera;
+        Alien.AlienReachedDestEvent += ShowAlienCamera;
     }
 
     void OnDisable()
     {
         StartLevelState.EnterStartLevelStateEvent -= HideAlienCamera;
-        AlienBase.AlienReachedDestEvent -= ShowAlienCamera;
+        Alien.AlienReachedDestEvent -= ShowAlienCamera;
     }
 
     void ShowAlienCamera(GameObject alien)

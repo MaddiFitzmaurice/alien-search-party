@@ -18,14 +18,14 @@ public class LevelManager : MonoBehaviour
     {
         StartLevelState.EnterStartLevelStateEvent += SendCurrentLevelEvent;
 
-        SpawnManager.AllAliensCaughtEvent += NextLevel;
+        SpawnManager.AbducteeWinLoseEvent += NextLevel;
     }
 
     void OnDisable()
     {
         StartLevelState.EnterStartLevelStateEvent -= SendCurrentLevelEvent;
 
-        SpawnManager.AllAliensCaughtEvent -= NextLevel;
+        SpawnManager.AbducteeWinLoseEvent -= NextLevel;
     }
 
     void Start()
@@ -45,16 +45,18 @@ public class LevelManager : MonoBehaviour
         SendCurrentLevel?.Invoke(_levels[_currentLevel]);
     }
 
-    // EndLevelState will call this function if needed
-    public void NextLevel()
+    public void NextLevel(GameObject alien)
     {
-        if (_currentLevel == _levels.Length - 1)
+        if (alien == null)
         {
-            // End game and back to menu logic
-        }
-        else
-        {
-            _currentLevel++;
+            if (_currentLevel == _levels.Length - 1)
+            {
+                // End game and back to menu logic
+            }
+            else
+            {
+                _currentLevel++;
+            }
         }
     } 
 }

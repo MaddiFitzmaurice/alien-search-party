@@ -6,7 +6,6 @@ using System;
 public class EndLevelState : BaseState
 {
     public static Action EnterEndLevelStateEvent;
-    public static Action<int> ShowEndLevelScreenEvent;
 
     private int _screenDisplayed;
 

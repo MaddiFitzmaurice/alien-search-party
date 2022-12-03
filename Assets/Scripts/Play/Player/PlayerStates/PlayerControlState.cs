@@ -28,7 +28,7 @@ public class PlayerControlState : BaseState
 
     public override void Enter()
     {
-        AlienBase.AlienAbductEvent += PlayAbductSound;
+        Abductee.AbductEvent += PlayAbductSound;
         BeamReset();
         _player.AudioSourceEngine.Play();
     }
@@ -53,7 +53,7 @@ public class PlayerControlState : BaseState
 
     public override void Exit()
     {
-        AlienBase.AlienAbductEvent -= PlayAbductSound;
+        Abductee.AbductEvent -= PlayAbductSound;
         BeamReset();
         _player.AudioSourceEngine.Stop();
     }
@@ -86,7 +86,7 @@ public class PlayerControlState : BaseState
         _player.PlayerAnim.SetFloat("BeamActive", 1f);
     }
 
-    public void PlayAbductSound(int activeAliensLeft)
+    public void PlayAbductSound()
     {
         _player.AudioSourceAbduct.Play();
     }

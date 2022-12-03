@@ -57,7 +57,7 @@ NavMeshProjectSettings:
     cost: 1
   - name: 
     cost: 1
-  - name: 
+  - name: Humans
     cost: 1
   - name: 
     cost: 1

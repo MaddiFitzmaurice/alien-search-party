@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     private GameObject _mainMenuButton;
 
     [SerializeField]
-    private TextMeshProUGUI _aliensRemainingText;
+    private TextMeshProUGUI _remainingText;
 
     // Used to toggle pause menu
     private bool _toggle;
@@ -26,10 +26,8 @@ public class UIManager : MonoBehaviour
         StartLevelState.EnterStartLevelStateEvent += ResetUI;
         PlayState.PauseGameEvent += TogglePauseMenu;
 
-        AlienBase.AlienSpawnEvent += UpdatePlayUI;
-        AlienBase.AlienAbductEvent += UpdatePlayUI;
-        AlienBase.AlienReachedDestEvent += DisplayLoseScreen;
-        SpawnManager.AllAliensCaughtEvent += DisplayWinScreen;
+        SpawnManager.ActiveAbducteesEvent += UpdatePlayUI;
+        SpawnManager.AbducteeWinLoseEvent += DisplayEndScreen;
 
         _toggle = false;  
     }
@@ -40,10 +38,8 @@ public class UIManager : MonoBehaviour
         StartLevelState.EnterStartLevelStateEvent -= ResetUI;
         PlayState.PauseGameEvent -= TogglePauseMenu;
 
-        AlienBase.AlienSpawnEvent -= UpdatePlayUI;
-        AlienBase.AlienAbductEvent -= UpdatePlayUI;
-        AlienBase.AlienReachedDestEvent -= DisplayLoseScreen;
-        SpawnManager.AllAliensCaughtEvent -= DisplayWinScreen;
+        SpawnManager.ActiveAbducteesEvent -= UpdatePlayUI;
+        SpawnManager.AbducteeWinLoseEvent -= DisplayEndScreen;
     }
 
     public void ReturnToMainMenu()
@@ -57,14 +53,14 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.StartLevelState);
     }
 
-    void UpdatePlayUI(int aliensRemaining)
+    void UpdatePlayUI(int abducteesRemaining)
     {
-        _aliensRemainingText.text = "Aliens Remaining: " + aliensRemaining;
+        _remainingText.text = "Remaining: " + abducteesRemaining;
     }
 
     void ResetUI()
     {
-        _aliensRemainingText.text = "Aliens Remaining: 0";
+        _remainingText.text = "Remaining: 0";
         DisplayMainMenuButton(false);
 
         foreach (GameObject menu in _menus)
@@ -90,10 +86,23 @@ public class UIManager : MonoBehaviour
 
     void DisplayPlayUI(bool toggle)
     {
-        _aliensRemainingText.enabled = !toggle;
+        _remainingText.enabled = !toggle;
     }
 
-    void DisplayLoseScreen(GameObject alien)
+    // UI displayed at EndLevelState
+    void DisplayEndScreen(GameObject alien)
+    {
+        if (alien == null)
+        {
+            DisplayWinScreen();
+        }
+        else 
+        {
+            DisplayLoseScreen();
+        }
+    }
+
+    void DisplayLoseScreen()
     {
         _menus[(int)MenuType.Lose].SetActive(true);
         DisplayMainMenuButton(true);

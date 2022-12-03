@@ -14,6 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnGreenAliens: 0
   SpawnGreyAliens: 0
+  Tutorial: 1
   AmountGreenAliens: 0
   AmountGreyAliens: 0
+  AmountHumans: 5
+  SpawnChanceGrey: 0
+  SpawnChanceGreyStart: 0
+  SpawnChanceGreyChange: 0
   SpawnRate: 0
+  SpawnRateBase: 0
+  SpawnRateChange: 0
+  ChangeRateAfter: 0
