@@ -30,14 +30,14 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        /*if (!MenuData.StoryModeOn)
+        if (!MenuData.StoryModeOn)
         {
             _currentLevel = MenuData.LevelSelect;
         }
         else
         {
             _currentLevel = 0;
-        }*/
+        }
     }
 
     void SendCurrentLevelEvent()
