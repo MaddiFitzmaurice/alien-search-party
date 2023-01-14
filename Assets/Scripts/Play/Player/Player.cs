@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Player : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class Player : MonoBehaviour
         _playerControlState = new PlayerControlState(this);
         _playerNoControlState = new PlayerNoControlState(this);
 
-        _playerStateMachine = new StateMachine(_playerNoControlState);
+        _playerStateMachine = new StateMachine();
     }
 
     void OnEnable()
@@ -59,6 +60,8 @@ public class Player : MonoBehaviour
         StartLevelState.EnterStartLevelStateEvent -= ResetPlayerPosition;
         PlayState.EnterPlayStateEvent -= EnterPlayerControlState;
         EndLevelState.EnterEndLevelStateEvent -= EnterPlayerNoControlState;
+
+        _playerControlState.Exit();
     }
 
     // Update State Functions
@@ -115,7 +118,7 @@ public class Player : MonoBehaviour
         _playerStateMachine.ChangeState(newState);
     }
 
-    void ResetPlayerPosition()
+    public void ResetPlayerPosition()
     {
         transform.position = _resetPosition;
     }

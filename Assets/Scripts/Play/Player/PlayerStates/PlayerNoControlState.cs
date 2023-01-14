@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerNoControlState : BaseState
 {
     private Player _player; 
+    
     public PlayerNoControlState(Player player)
     {
         _player = player;
@@ -27,6 +28,6 @@ public class PlayerNoControlState : BaseState
 
     public override void Exit()
     {
-        
+        _player.ResetPlayerPosition();
     }
 }

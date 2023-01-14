@@ -1,41 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CutsceneState : BaseState
 {
+    public static Action EnterCutsceneStateEvent;
+    public static Action ExitCutsceneStateEvent;
+
     public override void Enter()
     {
-        base.Enter();
+        EnterCutsceneStateEvent?.Invoke();
+        Debug.Log("Entered Cutscene State");
     }
 
     public override void Exit()
     {
-        base.Exit();
+        ExitCutsceneStateEvent?.Invoke();
+        Debug.Log("Exited Cutscene State");
     }
 
     public override void LogicUpdate()
     {
-        base.LogicUpdate();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.PlayState);  
+        }
     }
 
     public override void OnTriggerEnter(Collider other)
     {
-        base.OnTriggerEnter(other);
+
     }
 
     public override void OnTriggerExit(Collider other)
     {
-        base.OnTriggerExit(other);
+
     }
 
     public override void OnTriggerStay(Collider other)
     {
-        base.OnTriggerStay(other);
+
     }
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();
+
     }
 }

@@ -36,7 +36,9 @@ public abstract class Alien : Abductee
     // When Alien reaches destination
     protected void ReachedTarget()
     {
-        StopMoving();
+        NavAgent.isStopped = true;
+        Animator.SetBool("isStopped", true);
+        Animator.SetFloat("Speed", NavAgent.speed);
         transform.eulerAngles = _endRotation;
         AlienReachedDestEvent?.Invoke(this.gameObject);
         GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndLevelState);

@@ -36,7 +36,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            _currentLevel = 0;
+            //_currentLevel = 0;
         }
     }
 

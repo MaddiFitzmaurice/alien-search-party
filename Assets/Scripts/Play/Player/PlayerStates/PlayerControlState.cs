@@ -20,6 +20,7 @@ public class PlayerControlState : BaseState
     private Vector3 _beamNormalY = new Vector3(0, -1, 0);
     // BeamTrigger reduced y
     private Vector3 _beamReducedY = Vector3.zero;
+    private bool _soundMute = false;
 
     public PlayerControlState(Player player)
     {
@@ -28,7 +29,10 @@ public class PlayerControlState : BaseState
 
     public override void Enter()
     {
+        _soundMute = false;
+        AudioListener.pause = _soundMute;
         Abductee.AbductEvent += PlayAbductSound;
+        PlayState.PauseGameEvent += MuteSound;
         BeamReset();
         _player.AudioSourceEngine.Play();
     }
@@ -54,6 +58,7 @@ public class PlayerControlState : BaseState
     public override void Exit()
     {
         Abductee.AbductEvent -= PlayAbductSound;
+        PlayState.PauseGameEvent -= MuteSound;
         BeamReset();
         _player.AudioSourceEngine.Stop();
     }
@@ -89,5 +94,11 @@ public class PlayerControlState : BaseState
     public void PlayAbductSound()
     {
         _player.AudioSourceAbduct.Play();
+    }
+
+    public void MuteSound()
+    {
+        _soundMute = !_soundMute;
+        AudioListener.pause = _soundMute;
     }
 }

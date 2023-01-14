@@ -5,28 +5,30 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 enum MenuType {Pause, Win, Lose};
+enum PanelType {Menu, Play, Narrative};
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
+    private GameObject[] _panels;
+    [SerializeField]
     private GameObject[] _menus;
 
     [SerializeField]
-    private GameObject _mainMenuButton;
+    private TextMeshProUGUI _textDetected;
 
-    [SerializeField]
-    private TextMeshProUGUI _remainingText;
-
-    // Used to toggle pause menu
+    // Used to toggle UI
     private bool _toggle;
 
     void OnEnable()
     {
         // Subscribe to trigger events
         StartLevelState.EnterStartLevelStateEvent += ResetUI;
-        PlayState.PauseGameEvent += TogglePauseMenu;
 
-        SpawnManager.ActiveAbducteesEvent += UpdatePlayUI;
+        PlayState.EnterPlayStateEvent += EnterPlayStateEventHandler;
+        PlayState.PauseGameEvent += ToggleMenuPause;
+
+        SpawnManager.ActiveAbducteesEvent += UpdatePlayPanel;
         SpawnManager.AbducteeWinLoseEvent += DisplayEndScreen;
 
         _toggle = false;  
@@ -36,15 +38,18 @@ public class UIManager : MonoBehaviour
     {
         // Unsubscribe to trigger events
         StartLevelState.EnterStartLevelStateEvent -= ResetUI;
-        PlayState.PauseGameEvent -= TogglePauseMenu;
 
-        SpawnManager.ActiveAbducteesEvent -= UpdatePlayUI;
+        PlayState.EnterPlayStateEvent -= EnterPlayStateEventHandler;
+        PlayState.PauseGameEvent -= ToggleMenuPause;
+
+        SpawnManager.ActiveAbducteesEvent -= UpdatePlayPanel;
         SpawnManager.AbducteeWinLoseEvent -= DisplayEndScreen;
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1.0f;
+        AudioListener.pause = false;
         SceneManager.LoadScene("Menu");
     }
 
@@ -53,15 +58,20 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.StartLevelState);
     }
 
-    void UpdatePlayUI(int abducteesRemaining)
+    void UpdatePlayPanel(int abducteesRemaining)
     {
-        _remainingText.text = "Remaining: " + abducteesRemaining;
+        _textDetected.text = abducteesRemaining.ToString();
     }
 
+    // Resets all UI elements at start of game
     void ResetUI()
     {
-        _remainingText.text = "Remaining: 0";
-        DisplayMainMenuButton(false);
+        _textDetected.text = "0";
+
+        foreach (GameObject panel in _panels)
+        {
+            panel.SetActive(false);
+        }
 
         foreach (GameObject menu in _menus)
         {
@@ -69,48 +79,48 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // Handles EnterPlayState event
+    void EnterPlayStateEventHandler()
+    {
+        TogglePanelPlay(true);
+    }
+
+    void TogglePanelMenu(bool toggle)
+    {
+        _panels[(int)PanelType.Menu].SetActive(toggle);
+    }
+
+    void TogglePanelPlay(bool toggle)
+    {
+        _panels[(int)PanelType.Play].gameObject.SetActive(toggle);
+    }
+
     // Toggles the pause menu on and off
-    void TogglePauseMenu()
+    void ToggleMenuPause()
     {
         _toggle = !_toggle;
         Time.timeScale = _toggle == true ? 0 : 1.0f;
+
+        TogglePanelMenu(_toggle);
+        TogglePanelPlay(!_toggle);
+
         _menus[(int)MenuType.Pause].SetActive(_toggle);
-        DisplayMainMenuButton(_toggle);
-        DisplayPlayUI(_toggle);
-    }
-
-    void DisplayMainMenuButton(bool toggle)
-    {
-        _mainMenuButton.SetActive(toggle);
-    }
-
-    void DisplayPlayUI(bool toggle)
-    {
-        _remainingText.enabled = !toggle;
     }
 
     // UI displayed at EndLevelState
     void DisplayEndScreen(GameObject alien)
     {
+        TogglePanelMenu(true);
+
+        // Win screen
         if (alien == null)
         {
-            DisplayWinScreen();
+            _menus[(int)MenuType.Win].SetActive(true);
         }
+        // Lose screen
         else 
         {
-            DisplayLoseScreen();
+            _menus[(int)MenuType.Lose].SetActive(true);
         }
-    }
-
-    void DisplayLoseScreen()
-    {
-        _menus[(int)MenuType.Lose].SetActive(true);
-        DisplayMainMenuButton(true);
-    }
-
-    void DisplayWinScreen()
-    {
-        _menus[(int)MenuType.Win].SetActive(true);
-        DisplayMainMenuButton(true);
     }
 }

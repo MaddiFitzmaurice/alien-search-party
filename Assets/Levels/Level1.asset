@@ -12,14 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de1fc535919dc3041931d1505a4fdc36, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  SpawnGreenAliens: 1
-  SpawnGreyAliens: 0
-  AmountGreenAliens: 30
-  AmountGreyAliens: 1
+  LevelNumber: 1
+  BarkAfterSpawned: 3
+  GreenAliens: 1
+  GreyAliens: 0
+  Humans: 0
+  AmountGreenAliens: 5
+  AmountGreyAliens: 0
+  AmountHumans: 0
+  AmountTotal: 5
   SpawnChanceGrey: 0
   SpawnChanceGreyStart: 0
   SpawnChanceGreyChange: 0
-  SpawnRate: 3
   SpawnRateBase: 10
+  CurrentSpawnRate: 0
   SpawnRateChange: 1
   ChangeRateAfter: 5

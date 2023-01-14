@@ -7,17 +7,18 @@ public class StateMachine
 {
     public BaseState CurrentState { get; private set; }
 
-    public StateMachine(BaseState startState)
+    public StateMachine()
     {
-        Assert.IsNotNull(startState);
-        CurrentState = startState;
-        CurrentState.Enter();
+        CurrentState = null;
     }
 
     public void ChangeState(BaseState newState)
     {
         Assert.IsNotNull(newState);
-        CurrentState.Exit();
+        if (CurrentState != null)
+        {        
+            CurrentState.Exit();
+        }
         CurrentState = newState;
         CurrentState.Enter();
     }

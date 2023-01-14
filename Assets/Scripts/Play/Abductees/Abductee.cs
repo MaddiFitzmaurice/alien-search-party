@@ -29,11 +29,15 @@ public class Abductee : MonoBehaviour
         Animator = GetComponentInChildren<Animator>();
     }
 
+    void OnDisable()
+    {
+        CancelInvoke();
+    }
+
     public virtual void Spawn(Transform spawnPoint, Transform destination)
     {
         gameObject.transform.position = spawnPoint.position;
         gameObject.SetActive(true);
-        Debug.Log(NavAgent);
         NavAgent.SetDestination(destination.position);
         Move();
     }
@@ -63,7 +67,6 @@ public class Abductee : MonoBehaviour
     protected virtual void Abducted()
     {
         AbductEvent?.Invoke();
-        CancelInvoke();
         gameObject.SetActive(false);
     }
 

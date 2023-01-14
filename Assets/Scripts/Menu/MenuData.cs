@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class MenuData
 {
-    public static bool StoryModeOn;
+    public static bool StoryModeOn = true;
     public static int LevelSelect;
 }

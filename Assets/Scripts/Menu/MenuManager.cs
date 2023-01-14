@@ -64,7 +64,7 @@ public class MenuManager : MonoBehaviour
 
     void HighlightText(int num)
     {
-        _textMenuOptions[_menuDisplayed][num].color = Color.green; 
+        _textMenuOptions[_menuDisplayed][num].color = Color.white; 
     }
 
     void ResetHighlightText(int num)

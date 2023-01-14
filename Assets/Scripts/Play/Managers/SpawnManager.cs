@@ -43,6 +43,9 @@ public class SpawnManager : MonoBehaviour
     // Current level
     private Level _currentLevel;
 
+    // Bark triggered
+    private bool _barkTriggered;
+
     // Object that creates Abductee pool lists
     private AbducteeCreator _abducteeCreator;
 
@@ -62,6 +65,11 @@ public class SpawnManager : MonoBehaviour
         PlayState.EnterPlayStateEvent += StartSpawning;
         EndLevelState.EnterEndLevelStateEvent += StopSpawning;
 
+        if (MenuData.StoryModeOn)
+        {
+            BarkState.EnterBarkStateEvent += StopSpawning;
+        }
+
         LevelManager.SendCurrentLevel += GetCurrentLevel;
         
         Alien.AlienReachedDestEvent += LoseEventHandler;
@@ -75,6 +83,11 @@ public class SpawnManager : MonoBehaviour
         StartLevelState.EnterStartLevelStateEvent -= ResetSpawner;
         PlayState.EnterPlayStateEvent -= StartSpawning;
         EndLevelState.EnterEndLevelStateEvent -= StopSpawning;
+
+        if (MenuData.StoryModeOn)
+        {
+            BarkState.EnterBarkStateEvent -= StopSpawning;
+        }
 
         LevelManager.SendCurrentLevel -= GetCurrentLevel;
         
@@ -101,7 +114,9 @@ public class SpawnManager : MonoBehaviour
         _totalGreenAliensSpawned = 0;
         _totalGreyAliensSpawned = 0;
         _totalHumansSpawned = 0;
-        _currentLevel.SpawnRate = _currentLevel.SpawnRateBase;
+        _totalAbducteesSpawned = 0;
+        _currentLevel.CurrentSpawnRate = _currentLevel.SpawnRateBase;
+        _barkTriggered = false;
     }
 
     // Return all aliens to pool for a reset except Alien that lost the game if applicable
@@ -145,15 +160,14 @@ public class SpawnManager : MonoBehaviour
         if (_totalAbducteesActive == 0)
         {
             // Check if end of level reached
-            if (_totalAbducteesSpawned == _currentLevel.AmountGreenAliens + _currentLevel.AmountGreyAliens + _currentLevel.AmountHumans)
+            if (_totalAbducteesSpawned == _currentLevel.AmountTotal)
             {
                 AbducteeWinLoseEvent?.Invoke(null);
                 GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.EndLevelState);
             }
-
-            // Bark
-            if (MenuData.StoryModeOn && (_totalAbducteesSpawned % 10 == 0))
+            else if (MenuData.StoryModeOn && _totalAbducteesSpawned == _currentLevel.BarkAfterSpawned && !_barkTriggered)
             {
+                _barkTriggered = true;
                 GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.BarkState);
             }
         }
@@ -178,13 +192,13 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
-            if (_currentLevel.Tutorial)
+            if (_currentLevel.Humans)
             {
                 SpawnHumans();
                 break;
             }
 
-            yield return new WaitForSeconds(_currentLevel.SpawnRate);
+            yield return new WaitForSeconds(_currentLevel.CurrentSpawnRate);
 
             int type = SetAlienType();
 
@@ -200,19 +214,19 @@ public class SpawnManager : MonoBehaviour
                 //Change spawn rate
                 if (_totalAbducteesSpawned % _currentLevel.ChangeRateAfter == 0)
                 {
-                    _currentLevel.SpawnRate -= _currentLevel.SpawnRateChange;
+                    _currentLevel.CurrentSpawnRate -= _currentLevel.SpawnRateChange;
                 }
             }
 
             // Stop spawn coroutine if reached max for the level
-            if (_totalAbducteesSpawned == _currentLevel.AmountGreenAliens + _currentLevel.AmountGreyAliens)
+            if (_totalAbducteesSpawned == _currentLevel.AmountTotal)
             {
                 yield break;
             }
             // Stop spawn coroutine to play Story barks
-            else if (_totalAbducteesSpawned % 10 == 0 && MenuData.StoryModeOn)
+            else if (_totalAbducteesSpawned == _currentLevel.BarkAfterSpawned && MenuData.StoryModeOn && !_barkTriggered)
             {
-                yield break;
+                break;
             }
         }
     }
@@ -230,18 +244,18 @@ public class SpawnManager : MonoBehaviour
             i++;
         }
 
-        _totalAbducteesSpawned = _totalHumansSpawned;
+        _totalAbducteesSpawned = _currentLevel.AmountHumans;
     }
 
     // Decide which Alien to spawn based on level specs
     int SetAlienType()
     {   
-        if (_currentLevel.Tutorial)
+        if (_currentLevel.Humans)
         {
             return (int)AbducteeType.Human;
         }
         // If both Green and Grey are allowed to spawn
-        else if (_currentLevel.SpawnGreenAliens && _currentLevel.SpawnGreyAliens)
+        else if (_currentLevel.GreenAliens && _currentLevel.GreyAliens)
         {
             // If max amount hasn't been reached for Green or Grey
             if (_totalGreenAliensSpawned < _currentLevel.AmountGreenAliens &&
@@ -268,7 +282,7 @@ public class SpawnManager : MonoBehaviour
             }
         }
         // If only Green is allowed to spawn
-        else if (_currentLevel.SpawnGreenAliens)
+        else if (_currentLevel.GreenAliens)
         {
             // If max hasn't been reached yet
             if (_totalGreenAliensSpawned < _currentLevel.AmountGreenAliens)
@@ -282,7 +296,7 @@ public class SpawnManager : MonoBehaviour
             }
         }
         // If only Grey is allowed to spawn
-        else if (_currentLevel.SpawnGreyAliens)
+        else if (_currentLevel.GreyAliens)
         {
             // If max hasn't been reached yet
             if (_totalGreyAliensSpawned < _currentLevel.AmountGreyAliens)

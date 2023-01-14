@@ -35,12 +35,12 @@ public class GameManager : MonoBehaviour
         CutsceneState = new CutsceneState();
         EndLevelState = new EndLevelState();
 
-        // Enter IntroState
-        GMStateMachine = new StateMachine(StartLevelState);
+        GMStateMachine = new StateMachine();
     }
 
     void Start()
     {
+        // Enter into StartLevelState first
         GMStateMachine.ChangeState(StartLevelState);
     }
 

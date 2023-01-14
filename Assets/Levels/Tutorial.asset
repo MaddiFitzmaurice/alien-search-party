@@ -12,16 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de1fc535919dc3041931d1505a4fdc36, type: 3}
   m_Name: Tutorial
   m_EditorClassIdentifier: 
-  SpawnGreenAliens: 0
-  SpawnGreyAliens: 0
-  Tutorial: 1
+  LevelNumber: 0
+  BarkAfterSpawned: 0
+  GreenAliens: 0
+  GreyAliens: 0
+  Humans: 1
   AmountGreenAliens: 0
   AmountGreyAliens: 0
   AmountHumans: 5
+  AmountTotal: 5
   SpawnChanceGrey: 0
   SpawnChanceGreyStart: 0
   SpawnChanceGreyChange: 0
-  SpawnRate: 0
   SpawnRateBase: 0
+  CurrentSpawnRate: 0
   SpawnRateChange: 0
   ChangeRateAfter: 0

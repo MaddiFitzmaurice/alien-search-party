@@ -1,22 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BarkState : BaseState
 {
+    public static Action EnterBarkStateEvent;
+    public static Action ExitBarkStateEvent;
+
     public override void Enter()
     {
+        EnterBarkStateEvent?.Invoke();
         Debug.Log("Entered Bark State");
     }
 
     public override void Exit()
     {
-        base.Exit();
+        EnterBarkStateEvent?.Invoke();
+        Debug.Log("Exited Bark State");
     }
 
     public override void LogicUpdate()
     {
-        base.LogicUpdate();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.PlayState);  
+        }
     }
 
     public override void OnTriggerEnter(Collider other)
@@ -36,6 +45,6 @@ public class BarkState : BaseState
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();
+
     }
 }

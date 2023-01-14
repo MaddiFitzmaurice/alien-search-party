@@ -8,32 +8,33 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "New Level", menuName = "Level")]
 public class Level : ScriptableObject
 {
+    [Header("Level Number")]
+    public int LevelNumber;
+
+    [Header("Narrative Data")]
+    public int BarkAfterSpawned;
+
     // Which Abductees spawn in this level?
     [Header("Which Abductees Spawn?")]
-    public bool SpawnGreenAliens;
-    public bool SpawnGreyAliens;
-    public bool Tutorial;
+    public bool GreenAliens;
+    public bool GreyAliens;
+    public bool Humans;
 
     // How many Abductees will spawn over the duration of the level?
-    [HideInInspector]
-    public int AmountGreenAliens = 0;
-    [HideInInspector]
-    public int AmountGreyAliens = 0;
-    [HideInInspector]
-    public int AmountHumans = 0;
+    [HideInInspector] public int AmountGreenAliens = 0;
+    [HideInInspector] public int AmountGreyAliens = 0;
+    [HideInInspector] public int AmountHumans = 0;
+    [HideInInspector] public int AmountTotal;
 
     // Chance for a Grey Alien to spawn
-    [HideInInspector]
-    public int SpawnChanceGrey = 0;
-    [HideInInspector]
-    public int SpawnChanceGreyStart;
-    [HideInInspector]
-    public int SpawnChanceGreyChange;
+    [HideInInspector] public int SpawnChanceGrey = 0;
+    [HideInInspector] public int SpawnChanceGreyStart;
+    [HideInInspector] public int SpawnChanceGreyChange;
 
     // Spawn Rate
     [Header("Spawn Rate")]
-    public float SpawnRate;
     public float SpawnRateBase;
+    [HideInInspector] public float CurrentSpawnRate;
     public float SpawnRateChange;
     public int ChangeRateAfter;
 }
@@ -47,7 +48,7 @@ public class LevelEditor : Editor
 
         var level = target as Level;
 
-        if (level.SpawnGreenAliens && level.SpawnGreyAliens)
+        if (level.GreenAliens && level.GreyAliens)
         {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Grey Alien Spawn Chance", EditorStyles.boldLabel);
@@ -58,21 +59,33 @@ public class LevelEditor : Editor
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Number of Abductees To Spawn", EditorStyles.boldLabel);
-        if (level.SpawnGreenAliens)
+        
+        if (level.GreenAliens && level.GreyAliens)
         {
             level.AmountGreenAliens = EditorGUILayout.IntSlider("Num of Green Aliens", level.AmountGreenAliens, 0, 100);
-        }
-
-        if (level.SpawnGreyAliens)
-        {
             level.AmountGreyAliens = EditorGUILayout.IntSlider("Num of Grey Aliens", level.AmountGreyAliens, 0, 100);
         }
-
-        if (level.Tutorial)
+        else if (level.GreenAliens)
         {
-            level.AmountHumans = EditorGUILayout.IntSlider("Num of Humans", level.AmountHumans, 0, 10);
-            level.SpawnGreenAliens = false;
-            level.SpawnGreyAliens = false;
+            level.AmountGreenAliens = EditorGUILayout.IntSlider("Num of Green Aliens", level.AmountGreenAliens, 0, 100);
+            level.AmountGreyAliens = 0;
+            level.AmountHumans = 0;
         }
+        else if (level.GreyAliens)
+        {
+            level.AmountGreyAliens = EditorGUILayout.IntSlider("Num of Grey Aliens", level.AmountGreyAliens, 0, 100);
+            level.AmountGreenAliens = 0;
+            level.AmountHumans = 0;
+        }
+
+        if (level.Humans)
+        {
+            level.AmountHumans = EditorGUILayout.IntSlider("Num of Humans", level.AmountHumans, 0, 5);
+            level.GreenAliens = false;
+            level.GreyAliens = false;
+        }
+
+        level.AmountTotal = level.AmountHumans + level.AmountGreyAliens + level.AmountGreenAliens;
+        EditorGUILayout.IntField("Total", level.AmountTotal);
     }
 }
