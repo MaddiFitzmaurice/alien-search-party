@@ -8,8 +8,9 @@ They have not! They’re just… #green
 
 …heading towards the cow creatures. 
 
-Oh stars, the mission is in jeopardy! Hurry, we must abduct them before they reach the cow creatures and alert the humans of our presence!
+Oh stars, the mission is in jeopardy! Hurry, we must abduct it before it reaches the cow creatures and alerts the humans of our presence!
 
-Hmm. I see more of your disobedient kind gathered amongst the trees… #grey
+Hmm. It may not be the only one with the wrong idea… #grey
 
+... (spacebar to start). #green
     -> END
