@@ -36,6 +36,8 @@ Of course you have. #grey
 
 There! My species are so fast that we leave electrical disturbances in our wake.
 
-That is good to know, as I have a feeling that will not be the last of them... #green
+I have a feeling that will not be the last of them... #green
+
+... (spacebar to start). #grey
 
     -> END
