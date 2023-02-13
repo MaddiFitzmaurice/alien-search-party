@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -49,11 +50,7 @@ public class LevelManager : MonoBehaviour
     {
         if (alien == null)
         {
-            if (_currentLevel == _levels.Length - 1)
-            {
-                // End game and back to menu logic
-            }
-            else
+            if (_currentLevel < _levels.Length - 1)
             {
                 _currentLevel++;
             }

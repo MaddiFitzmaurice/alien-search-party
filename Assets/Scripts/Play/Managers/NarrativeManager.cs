@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Playables;
 using TMPro;
 using Ink.Runtime;
+using UnityEngine.SceneManagement;
 
 public class NarrativeManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class NarrativeManager : MonoBehaviour
 
     private PlayableDirector _director;
     private AudioSource _audioSource;
+    private Level _currentLevel;
     private Story _currentCutsceneDialogue;
     private Story _currentBarkDialogue;
     private PlayableAsset _currentCutscene;
@@ -61,6 +63,7 @@ public class NarrativeManager : MonoBehaviour
     {
         if (level != null)
         {
+            _currentLevel = level;
             _currentCutsceneDialogue = new Story(_cutsceneDialogues[level.LevelNumber].text);
             _currentCutscene = _cutscenes[level.LevelNumber];
         }
@@ -81,6 +84,12 @@ public class NarrativeManager : MonoBehaviour
         _director.Evaluate();
         _director.Stop();
         _panelNarrative.SetActive(false);
+
+        // If final level
+        if (_currentLevel.AmountTotal == 0)
+        {
+            SceneManager.LoadScene("Menu");
+        }
     }
 
     public void NextDialogue()

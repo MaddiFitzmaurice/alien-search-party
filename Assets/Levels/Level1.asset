@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   LevelNumber: 1
-  BarkAfterSpawned: 3
+  BarkAfterSpawned: 40
   GreenAliens: 1
   GreyAliens: 0
   Humans: 0

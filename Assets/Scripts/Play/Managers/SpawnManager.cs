@@ -192,6 +192,7 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
+            // If tutorial level
             if (_currentLevel.Humans)
             {
                 SpawnHumans();
