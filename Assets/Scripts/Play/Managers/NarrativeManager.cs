@@ -11,13 +11,13 @@ public class NarrativeManager : MonoBehaviour
 {
     [Header("Narrative Assets")]
     [SerializeField] private List<PlayableAsset> _cutscenes;
+    [SerializeField] private List<PlayableAsset> _barks;
     [SerializeField] private List<TextAsset> _cutsceneDialogues;
     [SerializeField] private List<TextAsset> _barkDialogues;
     [SerializeField] private List<AudioClip> _supremeNoises;
     
     [Header("Narrative UI")]
-    [SerializeField] private GameObject _panelNarrative;
-    [SerializeField] private TextMeshProUGUI _dialogue;
+    [SerializeField] private TextMeshProUGUI _dialogueText;
     [SerializeField] private float _dialogueSpeed;
     [SerializeField] private float _speakerNoiseSpeed;
     [SerializeField] private Image _speakerImage;
@@ -26,9 +26,12 @@ public class NarrativeManager : MonoBehaviour
     private PlayableDirector _director;
     private AudioSource _audioSource;
     private Level _currentLevel;
+
+    private Story _currentDialogue;
     private Story _currentCutsceneDialogue;
     private Story _currentBarkDialogue;
     private PlayableAsset _currentCutscene;
+    private PlayableAsset _currentBark;
     private Coroutine _currentCoroutine;
 
     void Awake()
@@ -45,6 +48,9 @@ public class NarrativeManager : MonoBehaviour
 
             CutsceneState.EnterCutsceneStateEvent += PlayCutscene;
             CutsceneState.ExitCutsceneStateEvent += StopCutscene;
+
+            BarkState.EnterBarkStateEvent += PlayBark;
+            BarkState.ExitBarkStateEvent += StopBark;
         }
     }
 
@@ -56,6 +62,9 @@ public class NarrativeManager : MonoBehaviour
 
             CutsceneState.EnterCutsceneStateEvent -= PlayCutscene;
             CutsceneState.ExitCutsceneStateEvent -= StopCutscene;
+
+            BarkState.EnterBarkStateEvent -= PlayBark;
+            BarkState.ExitBarkStateEvent -= StopBark;
         }
     }
 
@@ -64,15 +73,23 @@ public class NarrativeManager : MonoBehaviour
         if (level != null)
         {
             _currentLevel = level;
+
             _currentCutsceneDialogue = new Story(_cutsceneDialogues[level.LevelNumber].text);
             _currentCutscene = _cutscenes[level.LevelNumber];
+
+            // Account for no bark levels (tutorial and final)
+            if (level.LevelNumber != 0 && level.AmountTotal != 0)
+            {
+                _currentBarkDialogue = new Story(_barkDialogues[level.LevelNumber - 1].text);
+                _currentBark = _barks[level.LevelNumber - 1];
+            }
         }
     }
 
     public void PlayCutscene()
     {
+        _currentDialogue = _currentCutsceneDialogue;
         _audioSource.enabled = true;
-        _panelNarrative.SetActive(true);
         _director.Play(_currentCutscene);
     }
 
@@ -83,7 +100,6 @@ public class NarrativeManager : MonoBehaviour
         _director.time = _director.duration;
         _director.Evaluate();
         _director.Stop();
-        _panelNarrative.SetActive(false);
 
         // If final level
         if (_currentLevel.AmountTotal == 0)
@@ -92,34 +108,56 @@ public class NarrativeManager : MonoBehaviour
         }
     }
 
+    public void PlayBark()
+    {
+                Debug.Log("Test");
+        _audioSource.enabled = true;
+        _currentDialogue = _currentBarkDialogue;
+        _director.Play(_currentBark);
+    }
+
+    public void StopBark()
+    {
+        _audioSource.enabled = false;
+        StopAllCoroutines();
+    }
+
+    public void ExitTimeline()
+    {
+        _director.time = _director.duration;
+        _director.Evaluate();
+        _director.Stop();
+        GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.PlayState);  
+    }
+
     public void NextDialogue()
     {
-        if (_currentCutsceneDialogue.canContinue)
+        if (_currentDialogue.canContinue)
         {
             if (_currentCoroutine != null)
             {
                 StopCoroutine(_currentCoroutine);
             }
 
-            string line = _currentCutsceneDialogue.Continue();
-            string speaker = HandleTag(_currentCutsceneDialogue.currentTags);
+            string line = _currentDialogue.Continue();
+            string speaker = HandleTag(_currentDialogue.currentTags);
             SetSpeaker(speaker);
             _currentCoroutine = StartCoroutine(TypingEffect(line));
         }
         else
         {
-            _dialogue.text = "";
+            _dialogueText.text = "";
         }
     }
 
     private IEnumerator TypingEffect(string line)
     {
-        _dialogue.text = "";
+        _dialogueText.text = "";
         int visibleChars = 0;
 
         foreach (char letter in line.ToCharArray())
         {
-            _dialogue.text += letter;
+            _dialogueText.text += letter;
             PlayTalkingAudio(visibleChars, letter);
             visibleChars++;
             yield return new WaitForSeconds(_dialogueSpeed);

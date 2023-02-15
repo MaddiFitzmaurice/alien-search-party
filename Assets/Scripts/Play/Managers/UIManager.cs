@@ -31,6 +31,15 @@ public class UIManager : MonoBehaviour
         SpawnManager.ActiveAbducteesEvent += UpdatePlayPanel;
         SpawnManager.AbducteeWinLoseEvent += DisplayEndScreen;
 
+        if (MenuData.StoryModeOn)
+        {
+            CutsceneState.EnterCutsceneStateEvent += DisplayNarrativePanel;
+            CutsceneState.ExitCutsceneStateEvent += HideNarrativePanel;
+
+            BarkState.EnterBarkStateEvent += DisplayNarrativePanel;
+            BarkState.ExitBarkStateEvent += HideNarrativePanel;
+        }
+
         _toggle = false;  
     }
 
@@ -44,6 +53,15 @@ public class UIManager : MonoBehaviour
 
         SpawnManager.ActiveAbducteesEvent -= UpdatePlayPanel;
         SpawnManager.AbducteeWinLoseEvent -= DisplayEndScreen;
+
+        if (MenuData.StoryModeOn)
+        {
+            CutsceneState.EnterCutsceneStateEvent -= DisplayNarrativePanel;
+            CutsceneState.ExitCutsceneStateEvent -= HideNarrativePanel;
+
+            BarkState.EnterBarkStateEvent -= DisplayNarrativePanel;
+            BarkState.ExitBarkStateEvent -= HideNarrativePanel;
+        }
     }
 
     public void ReturnToMainMenu()
@@ -93,6 +111,22 @@ public class UIManager : MonoBehaviour
     void TogglePanelPlay(bool toggle)
     {
         _panels[(int)PanelType.Play].gameObject.SetActive(toggle);
+    }
+
+    void TogglePanelNarrative(bool toggle)
+    {
+        _panels[(int)PanelType.Narrative].gameObject.SetActive(toggle);
+    }
+    void HideNarrativePanel()
+    {
+        TogglePanelNarrative(false);
+        TogglePanelPlay(true);
+    }
+
+    void DisplayNarrativePanel()
+    {
+        TogglePanelNarrative(true);
+        TogglePanelPlay(false);
     }
 
     // Toggles the pause menu on and off

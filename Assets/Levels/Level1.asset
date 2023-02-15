@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   LevelNumber: 1
-  BarkAfterSpawned: 40
+  BarkAfterSpawned: 15
   GreenAliens: 1
   GreyAliens: 0
   Humans: 0
-  AmountGreenAliens: 5
+  AmountGreenAliens: 30
   AmountGreyAliens: 0
   AmountHumans: 0
-  AmountTotal: 5
+  AmountTotal: 30
   SpawnChanceGrey: 0
   SpawnChanceGreyStart: 0
   SpawnChanceGreyChange: 0
   SpawnRateBase: 10
-  CurrentSpawnRate: 0
+  CurrentSpawnRate: 10
   SpawnRateChange: 1
   ChangeRateAfter: 5

@@ -16,7 +16,7 @@ public class BarkState : BaseState
 
     public override void Exit()
     {
-        EnterBarkStateEvent?.Invoke();
+        ExitBarkStateEvent?.Invoke();
         Debug.Log("Exited Bark State");
     }
 
