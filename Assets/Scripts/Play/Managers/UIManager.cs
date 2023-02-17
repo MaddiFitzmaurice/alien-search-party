@@ -68,6 +68,7 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         AudioListener.pause = false;
+        MenuData.SaveStoryData();
         SceneManager.LoadScene("Menu");
     }
 

@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            //_currentLevel = 0;
+            _currentLevel = MenuData.LevelStory;
         }
     }
 
@@ -53,6 +53,11 @@ public class LevelManager : MonoBehaviour
             if (_currentLevel < _levels.Length - 1)
             {
                 _currentLevel++;
+                
+                if (MenuData.StoryModeOn)
+                {
+                    MenuData.LevelStory = _currentLevel;
+                }
             }
         }
     } 

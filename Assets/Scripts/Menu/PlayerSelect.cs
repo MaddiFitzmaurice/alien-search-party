@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerSelect : MonoBehaviour
 {
@@ -11,16 +12,13 @@ public class PlayerSelect : MonoBehaviour
     private AudioSource _audioSource;
     private int _currentSelection;
 
-    public delegate void PlayerSelectEvent();
-    public delegate void PlayerConfirmSelectionEvent(int num);
-    public delegate void PlayerHoverEvent(int num);
-    public static event PlayerHoverEvent HoverText;
-    public static event PlayerHoverEvent NoHoverText;
-    public static event PlayerConfirmSelectionEvent CheckSelection;
-    public static event PlayerSelectEvent BackToMainMenu;
-    public static event PlayerSelectEvent QuitGame;
+    public static Action BackToMainMenu;
+    public static Action QuitGame;
+    public static Action<int> CheckSelection;
+    public static Action<int> NoHoverText;
+    public static Action<int> HoverText;
 
-    public float Speed;
+    [SerializeField] private float _speed;
     void Start()
     {
         _Rb = GetComponent<Rigidbody>();
@@ -35,35 +33,30 @@ public class PlayerSelect : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (QuitGame != null)
-            {
-                QuitGame();
-            }   
+            QuitGame?.Invoke();
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (BackToMainMenu != null)
+            BackToMainMenu?.Invoke();
+
+            // If UFO is hovering over a selection, make sure to highlight new selection
+            if (_currentSelection != -1)
             {
-                BackToMainMenu();
-                if (_currentSelection != -1)
-                {
-                    HoverText(_currentSelection);
-                }
+                HoverText?.Invoke(_currentSelection);
             }
         }
 
         if (Input.GetButtonDown("Fire1")) 
         {
             _beamCollider.enabled = false;
-            if (CheckSelection != null)
+
+            if (_currentSelection != -1)
             {
-                if (_currentSelection != -1)
-                {
-                    CheckSelection(_currentSelection);
-                    _audioSource.Play();
-                }
+                CheckSelection?.Invoke(_currentSelection);
+                _audioSource.Play();
             }
+            
             _beamCollider.enabled = true;
         }
     }
@@ -71,7 +64,7 @@ public class PlayerSelect : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 move = new Vector3(_horizontalInput, 0, 0).normalized;
-        _Rb.AddForce(move * Speed, ForceMode.Acceleration);
+        _Rb.AddForce(move * _speed, ForceMode.Acceleration);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -79,29 +72,23 @@ public class PlayerSelect : MonoBehaviour
         if (other.tag == "Option 1")
         {
             _currentSelection = (int)MenuOptions.Option1;
-            if (HoverText != null)
-            {
-                HoverText((int)MenuOptions.Option1);
-                other.GetComponentInChildren<Animator>().SetBool("Abduct", true);
-            }
+            
+            HoverText?.Invoke((int)MenuOptions.Option1);
+            other.GetComponentInChildren<Animator>().SetBool("Abduct", true);
         }
         else if (other.tag == "Option 2")
         {
             _currentSelection = (int)MenuOptions.Option2;
-            if (HoverText != null)
-            {
-                HoverText((int)MenuOptions.Option2);
-                other.GetComponentInChildren<Animator>().SetBool("Abduct", true);
-            }
+            
+            HoverText?.Invoke((int)MenuOptions.Option2);
+            other.GetComponentInChildren<Animator>().SetBool("Abduct", true);
         }
         else if (other.tag == "Option 3")
         {
             _currentSelection = (int)MenuOptions.Option3;
-            if (HoverText != null)
-            {
-                HoverText((int)MenuOptions.Option3);
-                other.GetComponentInChildren<Animator>().SetBool("Abduct", true);
-            }
+           
+            HoverText?.Invoke((int)MenuOptions.Option3);
+            other.GetComponentInChildren<Animator>().SetBool("Abduct", true);
         }
     }
 
@@ -110,29 +97,23 @@ public class PlayerSelect : MonoBehaviour
         if (other.tag == "Option 1")
         {
             _currentSelection = -1;
-            if (NoHoverText != null)
-            {
-                NoHoverText((int)MenuOptions.Option1);
-                other.GetComponentInChildren<Animator>().SetBool("Abduct", false);
-            }
+            
+            NoHoverText?.Invoke((int)MenuOptions.Option1);
+            other.GetComponentInChildren<Animator>().SetBool("Abduct", false);
         }
         else if (other.tag == "Option 2")
         {
             _currentSelection = -1;
-            if (NoHoverText != null)
-            {
-                NoHoverText((int)MenuOptions.Option2);
-                other.GetComponentInChildren<Animator>().SetBool("Abduct", false);
-            }
+            
+            NoHoverText?.Invoke((int)MenuOptions.Option2);
+            other.GetComponentInChildren<Animator>().SetBool("Abduct", false);
         }
         else if (other.tag == "Option 3")
         {
             _currentSelection = -1;
-            if (NoHoverText != null)
-            {
-                NoHoverText((int)MenuOptions.Option3);
-                other.GetComponentInChildren<Animator>().SetBool("Abduct", false);
-            }
+           
+            NoHoverText?.Invoke((int)MenuOptions.Option3);
+            other.GetComponentInChildren<Animator>().SetBool("Abduct", false);
         }
     }
 }
