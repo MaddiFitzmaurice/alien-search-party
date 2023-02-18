@@ -48,16 +48,13 @@ public class LevelManager : MonoBehaviour
 
     public void NextLevel(GameObject alien)
     {
-        if (alien == null)
+        // Advance to next level if story mode is selected
+        if (alien == null && MenuData.StoryModeOn)
         {
             if (_currentLevel < _levels.Length - 1)
             {
                 _currentLevel++;
-                
-                if (MenuData.StoryModeOn)
-                {
-                    MenuData.LevelStory = _currentLevel;
-                }
+                MenuData.LevelStory = _currentLevel;
             }
         }
     } 

@@ -11,13 +11,11 @@ public class CutsceneState : BaseState
     public override void Enter()
     {
         EnterCutsceneStateEvent?.Invoke();
-        Debug.Log("Entered Cutscene State");
     }
 
     public override void Exit()
     {
         ExitCutsceneStateEvent?.Invoke();
-        Debug.Log("Exited Cutscene State");
     }
 
     public override void LogicUpdate()

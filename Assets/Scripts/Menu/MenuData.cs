@@ -36,10 +36,10 @@ public class MenuData
 
             LevelStory = loadedData.level;
         }
-        // If save doesn't exist, set to new game
+        // If save doesn't exist
         else
         {
-            LevelStory = 0;
+            LevelStory = -1;
         }
     }
 }

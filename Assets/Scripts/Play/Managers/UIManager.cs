@@ -9,13 +9,13 @@ enum PanelType {Menu, Play, Narrative};
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] _panels;
-    [SerializeField]
-    private GameObject[] _menus;
+    [SerializeField] private GameObject[] _panels;
+    [SerializeField] private GameObject[] _menus;
 
-    [SerializeField]
-    private TextMeshProUGUI _textDetected;
+    [SerializeField] private TextMeshProUGUI _textQuit;
+    [SerializeField] private TextMeshProUGUI _textWinPrompt;
+
+    [SerializeField] private TextMeshProUGUI _textDetected;
 
     // Used to toggle UI
     private bool _toggle;
@@ -38,6 +38,14 @@ public class UIManager : MonoBehaviour
 
             BarkState.EnterBarkStateEvent += DisplayNarrativePanel;
             BarkState.ExitBarkStateEvent += HideNarrativePanel;
+
+            _textQuit.text = "Save + Quit";
+            _textWinPrompt.text = "Continue";
+        }
+        else
+        {
+            _textQuit.text = "Quit";
+            _textWinPrompt.text = "Replay";
         }
 
         _toggle = false;  

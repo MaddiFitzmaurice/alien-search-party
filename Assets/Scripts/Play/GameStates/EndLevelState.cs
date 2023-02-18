@@ -12,8 +12,6 @@ public class EndLevelState : BaseState
     public override void Enter()
     { 
         EnterEndLevelStateEvent?.Invoke();
-
-        Debug.Log("End Level State Entered");
     }
 
     public override void LogicUpdate()
@@ -21,7 +19,7 @@ public class EndLevelState : BaseState
     }
 
     public override void Exit()
-    {        
-        Debug.Log("End Level State Left");
+    {     
+           
     }
 }

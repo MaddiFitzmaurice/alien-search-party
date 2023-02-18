@@ -8,12 +8,8 @@ public class PlayState : BaseState
     public static Action EnterPlayStateEvent;
     public static Action PauseGameEvent;
 
-    public bool Failed;
-
     public override void Enter()
     {
-        Failed = false;
-        Debug.Log("Play State entered");
         EnterPlayStateEvent?.Invoke(); 
     }
 

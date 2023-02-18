@@ -199,7 +199,20 @@ public class SpawnManager : MonoBehaviour
                 break;
             }
 
-            yield return new WaitForSeconds(_currentLevel.CurrentSpawnRate);
+            float spawnrate;
+
+            // If first alien to spawn, set to spawn quickly
+            if (_totalAbducteesSpawned == 0)
+            {
+                spawnrate = 3.0f;
+            }
+            // Otherwise stay with level's spawnrate
+            else
+            {
+                spawnrate = _currentLevel.CurrentSpawnRate;
+            }
+
+            yield return new WaitForSeconds(spawnrate);
 
             int type = SetAlienType();
 

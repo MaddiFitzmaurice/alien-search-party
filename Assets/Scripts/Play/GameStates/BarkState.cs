@@ -11,13 +11,11 @@ public class BarkState : BaseState
     public override void Enter()
     {
         EnterBarkStateEvent?.Invoke();
-        Debug.Log("Entered Bark State");
     }
 
     public override void Exit()
     {
         ExitBarkStateEvent?.Invoke();
-        Debug.Log("Exited Bark State");
     }
 
     public override void LogicUpdate()

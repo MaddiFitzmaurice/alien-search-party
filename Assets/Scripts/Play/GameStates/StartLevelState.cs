@@ -11,7 +11,6 @@ public class StartLevelState : BaseState
     public override void Enter()
     {
         EnterStartLevelStateEvent?.Invoke();
-        Debug.Log("Start Level State Entered");
 
         if (MenuData.StoryModeOn)
         {
@@ -32,6 +31,5 @@ public class StartLevelState : BaseState
     public override void Exit()
     {
         ExitStartLevelStateEvent?.Invoke();
-        Debug.Log("Start Level State left");
     }
 }

@@ -110,7 +110,6 @@ public class NarrativeManager : MonoBehaviour
 
     public void PlayBark()
     {
-                Debug.Log("Test");
         _audioSource.enabled = true;
         _currentDialogue = _currentBarkDialogue;
         _director.Play(_currentBark);
