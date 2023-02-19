@@ -39,6 +39,7 @@ public class Level : ScriptableObject
     public int ChangeRateAfter;
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(Level))]
 public class LevelEditor : Editor
 {
@@ -89,3 +90,4 @@ public class LevelEditor : Editor
         EditorGUILayout.IntField("Total", level.AmountTotal);
     }
 }
+#endif
