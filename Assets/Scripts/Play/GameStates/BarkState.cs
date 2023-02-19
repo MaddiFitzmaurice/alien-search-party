@@ -20,10 +20,6 @@ public class BarkState : BaseState
 
     public override void LogicUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.PlayState);  
-        }
     }
 
     public override void OnTriggerEnter(Collider other)

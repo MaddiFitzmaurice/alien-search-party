@@ -240,7 +240,7 @@ public class SpawnManager : MonoBehaviour
             // Stop spawn coroutine to play Story barks
             else if (_totalAbducteesSpawned == _currentLevel.BarkAfterSpawned && MenuData.StoryModeOn && !_barkTriggered)
             {
-                break;
+                yield break;
             }
         }
     }
