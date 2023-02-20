@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: corn
-    second: {fileID: 2100000, guid: f594e4baf53bbc74ca4ee8d9f2b2eb5d, type: 2}
+    second: {fileID: 2100000, guid: 774c77251f4dc0049b9f0ef313d1d012, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
