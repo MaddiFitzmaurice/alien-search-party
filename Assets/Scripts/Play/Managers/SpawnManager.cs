@@ -362,8 +362,8 @@ public class SpawnManager : MonoBehaviour
     // Randomly choose Alien type based on loaded chance selected
     int RandomSpawnChance()
     {
-        int rnd = UnityEngine.Random.Range(1, _currentLevel.SpawnChanceGrey + 1);
+        int rnd = UnityEngine.Random.Range(1, _currentLevel.GreySpawnChance + 1);
 
-        return (rnd == _currentLevel.SpawnChanceGrey) ? 1 : 0;
+        return (rnd == _currentLevel.GreySpawnChance) ? 1 : 0;
     } 
 }
