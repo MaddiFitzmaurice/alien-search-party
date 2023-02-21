@@ -21,9 +21,7 @@ MonoBehaviour:
   AmountGreyAliens: 10
   AmountHumans: 0
   AmountTotal: 30
-  SpawnChanceGrey: 2
-  SpawnChanceGreyStart: 6
-  SpawnChanceGreyChange: 2
+  GreySpawnChance: 4
   SpawnRateBase: 10
   CurrentSpawnRate: 10
   SpawnRateChange: 1

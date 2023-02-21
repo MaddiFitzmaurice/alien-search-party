@@ -84,6 +84,11 @@ public class LevelEditor : Editor
 
         level.AmountTotal = level.AmountHumans + level.AmountGreyAliens + level.AmountGreenAliens;
         EditorGUILayout.IntField("Total", level.AmountTotal);
+
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(level);
+        }
     }
 }
 #endif
