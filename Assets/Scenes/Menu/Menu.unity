@@ -2236,7 +2236,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: And special thanks to my wonderful partner Amanda, for both playtesting
+  m_text: And special thanks to my wonderful partner, Amanda, for both playtesting
     my game and supporting me during development.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0cb5f5f9303f7244e8ab6730d66e9242, type: 2}
