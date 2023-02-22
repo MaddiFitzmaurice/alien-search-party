@@ -22,7 +22,7 @@ MonoBehaviour:
   AmountHumans: 0
   AmountTotal: 30
   GreySpawnChance: 4
-  SpawnRateBase: 10
-  CurrentSpawnRate: 10
+  SpawnRateBase: 8
+  CurrentSpawnRate: 4
   SpawnRateChange: 1
   ChangeRateAfter: 5
