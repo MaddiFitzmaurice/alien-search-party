@@ -10,31 +10,27 @@ public class SpawnManager : MonoBehaviour
     public static Action<int> ActiveAbducteesEvent;
 
     // How many Aliens/Humans will be in each pool
-    [SerializeField]
-    private int _poolAmount;
-    [SerializeField]
-    private int _poolAmountTutorial;
+    [SerializeField] private int _poolAmount;
+    [SerializeField] private int _poolAmountTutorial;
+    [SerializeField] private float _initialSpawnTime;
 
     // Alien/Human Prefab Data
-    [SerializeField]
-    private GameObject[] _abducteePrefabs;
+    [SerializeField] private GameObject[] _abducteePrefabs;
 
     // Alien Grouping Data
-    [SerializeField]
-    private Transform[] _abducteeGroupings;
+    [SerializeField] private Transform[] _abducteeGroupings;
 
-    // Spawn points
-    [SerializeField]
-    private Transform[] _alienSpawnPoints;
-    [SerializeField]
-    private Transform[] _humanSpawnPoints;
+    // Spawn Point Data
+    [SerializeField] private Transform[] _alienSpawnPoints;
+    [SerializeField] private Transform[] _humanSpawnPoints;
+    private int _currentSpawnPoint;
+    private int _maxSpawnPointCount;
+    private int _spawnPointCount;
 
     // Aliens' Target Destinations
-    [SerializeField]
-    private Transform[] _farms;
-    
-    [SerializeField]
-    private Transform[] _towns;
+    [SerializeField] private Transform[] _farms;
+    [SerializeField] private Transform[] _towns;
+    private int _currentDest;
 
     // Abductee pool lists
     private List<List<GameObject>> _aliensList;
@@ -54,6 +50,11 @@ public class SpawnManager : MonoBehaviour
     private int _totalGreyAliensSpawned;
     private int _totalHumansSpawned;
     private int _totalAbducteesSpawned;
+
+    // To ensure not too many of the same alien type spawn for level 3
+    private int _maxAlienTypeCount;
+    private int _alienTypeCount;
+    private int _currentAlienType;
 
     // Keep track of active abductees
     private int _totalAbducteesActive;
@@ -103,6 +104,11 @@ public class SpawnManager : MonoBehaviour
         _aliensList = _abducteeCreator.CreateAliens(_poolAmount, _abducteePrefabs, _abducteeGroupings);
         _humans = _abducteeCreator.CreateHumans(_poolAmountTutorial, _abducteePrefabs[(int)AbducteeType.Human],
             _abducteeGroupings[(int)AbducteeType.Human]);
+
+        NewSpawnCount();
+        NewAlienTypeCount();
+        _currentDest = UnityEngine.Random.Range(0, 2);
+        _currentAlienType = UnityEngine.Random.Range(0, 2);
     }
 
     // Return all abductees to pool, reset spawn num trackers, reset spawn rate 
@@ -204,7 +210,7 @@ public class SpawnManager : MonoBehaviour
             // If first alien to spawn, set to spawn quickly
             if (_totalAbducteesSpawned == 0)
             {
-                spawnrate = 3.0f;
+                spawnrate = _initialSpawnTime;
             }
             // Otherwise stay with level's spawnrate
             else
@@ -218,8 +224,8 @@ public class SpawnManager : MonoBehaviour
 
             if (type != -1 && type != 2)
             {
-                Transform destination = SetDestination(type);
                 Transform spawnPoint = SetSpawnPoint();
+                Transform destination = SetDestination(type);
 
                 // Grab an Alien from the pool and spawn it
                 GameObject alien = ObjectPooler.GetPooledObject(_aliensList[type]);
@@ -338,13 +344,13 @@ public class SpawnManager : MonoBehaviour
         // If alien spawned is Green, send to a random farm
         if (alienType == (int)AbducteeType.Green)
         {
-            destination = _farms[UnityEngine.Random.Range(0, _farms.Length)];
+            destination = _farms[_currentDest];
             _totalGreenAliensSpawned += 1;
         }
         // Else if alien spawned is Grey, send to a random town
         else
         {
-            destination = _towns[UnityEngine.Random.Range(0, _towns.Length)];
+            destination = _towns[_currentDest];
             _totalGreyAliensSpawned += 1;
         }
 
@@ -356,7 +362,51 @@ public class SpawnManager : MonoBehaviour
     // Set Alien's spawn point
     Transform SetSpawnPoint()
     {
-        return _alienSpawnPoints[UnityEngine.Random.Range(0, _alienSpawnPoints.Length)];
+        int newSpawn = UnityEngine.Random.Range(0, _alienSpawnPoints.Length);
+
+        newSpawn = CheckSpawn(newSpawn);
+
+        return _alienSpawnPoints[newSpawn];
+    }
+
+    // Used to check if spawnpoint repeats too many times
+    int CheckSpawn(int newSpawn)
+    {
+        // If same spawnpoint has repeated more than the max number of times
+        if (_currentSpawnPoint == newSpawn && _spawnPointCount > _maxSpawnPointCount)
+        {
+            // Reset count, set new spawn count max, and flip spawnpoint 
+            NewSpawnCount();
+            newSpawn = 1 - newSpawn;
+            RandomDestinationSet();
+        }
+        // If spawnpoint has not yet repeated the max number of times
+        else if (_currentSpawnPoint == newSpawn && _spawnPointCount <= _maxSpawnPointCount)
+        {
+            _spawnPointCount++;
+            _currentDest = 1 - _currentDest;
+        }
+        // If new spawnpoint
+        else if (_currentSpawnPoint != newSpawn)
+        {
+            _currentSpawnPoint = newSpawn;
+            NewSpawnCount();
+            RandomDestinationSet();
+            _spawnPointCount++;
+        }
+
+        return newSpawn;
+    }
+
+    void NewSpawnCount()
+    {
+        _maxSpawnPointCount = UnityEngine.Random.Range(1, 4);
+        _spawnPointCount = 0;
+    }
+
+    void RandomDestinationSet()
+    {
+        _currentDest = UnityEngine.Random.Range(0, 2);
     }
 
     // Randomly choose Alien type based on loaded chance selected
@@ -364,6 +414,36 @@ public class SpawnManager : MonoBehaviour
     {
         int rnd = UnityEngine.Random.Range(1, _currentLevel.GreySpawnChance + 1);
 
-        return (rnd == _currentLevel.GreySpawnChance) ? 1 : 0;
+        int type = (rnd == _currentLevel.GreySpawnChance ? 1 : 0);
+
+        type = CheckAlienType(type);
+        return type;
     } 
+
+    int CheckAlienType(int type)
+    {
+        if (_alienTypeCount > _maxAlienTypeCount && type == _currentAlienType)
+        {
+            type = 1 - type;
+            NewAlienTypeCount();
+        }
+        else if (_alienTypeCount <= _maxAlienTypeCount && type == _currentAlienType)
+        {
+            _alienTypeCount++;
+        }
+        else if (type != _currentAlienType)
+        {
+            NewAlienTypeCount();
+            _alienTypeCount++;
+            _currentAlienType = type;
+        }
+
+        return type;
+    }
+
+    void NewAlienTypeCount()
+    {
+        _alienTypeCount = 0;
+        _maxAlienTypeCount = UnityEngine.Random.Range(3, 6);
+    }
 }
