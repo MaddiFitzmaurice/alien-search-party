@@ -20749,7 +20749,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Select: Left Mouse Button'
+  m_text: 'Move: WSAD
+
+    Select: Left Mouse Button'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0cb5f5f9303f7244e8ab6730d66e9242, type: 2}
   m_sharedMaterial: {fileID: -8547113407242985080, guid: 0cb5f5f9303f7244e8ab6730d66e9242, type: 2}
@@ -20776,8 +20778,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
