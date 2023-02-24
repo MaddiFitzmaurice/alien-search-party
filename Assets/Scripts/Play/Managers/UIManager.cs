@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _textWinPrompt;
 
     [SerializeField] private TextMeshProUGUI _textDetected;
+    [SerializeField] private TextMeshProUGUI _textRemaining;
 
     // Used to toggle UI
     private bool _toggle;
@@ -28,7 +29,8 @@ public class UIManager : MonoBehaviour
         PlayState.EnterPlayStateEvent += EnterPlayStateEventHandler;
         PlayState.PauseGameEvent += ToggleMenuPause;
 
-        SpawnManager.ActiveAbducteesEvent += UpdatePlayPanel;
+        SpawnManager.ActiveAbducteesEvent += UpdateActivePanel;
+        SpawnManager.RemainingAbducteesEvent += UpdateRemainingPanel;
         SpawnManager.AbducteeWinLoseEvent += DisplayEndScreen;
 
         if (MenuData.StoryModeOn)
@@ -59,7 +61,8 @@ public class UIManager : MonoBehaviour
         PlayState.EnterPlayStateEvent -= EnterPlayStateEventHandler;
         PlayState.PauseGameEvent -= ToggleMenuPause;
 
-        SpawnManager.ActiveAbducteesEvent -= UpdatePlayPanel;
+        SpawnManager.ActiveAbducteesEvent -= UpdateActivePanel;
+        SpawnManager.RemainingAbducteesEvent -= UpdateRemainingPanel;
         SpawnManager.AbducteeWinLoseEvent -= DisplayEndScreen;
 
         if (MenuData.StoryModeOn)
@@ -90,9 +93,14 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.GMStateMachine.ChangeState(GameManager.Instance.StartLevelState);
     }
 
-    void UpdatePlayPanel(int abducteesRemaining)
+    void UpdateActivePanel(int abducteesActive)
     {
-        _textDetected.text = abducteesRemaining.ToString();
+        _textDetected.text = abducteesActive.ToString();
+    }
+
+    void UpdateRemainingPanel(int abducteesRemaining)
+    {
+        _textRemaining.text = abducteesRemaining.ToString();
     }
 
     // Resets all UI elements at start of game

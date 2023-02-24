@@ -2236,8 +2236,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: And special thanks to my wonderful partner, Amanda, for both playtesting
-    my game and supporting me during development.
+  m_text: And special thanks to my wonderful family and wonderful partner, Amanda,
+    for both playtesting my game and supporting me during development.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0cb5f5f9303f7244e8ab6730d66e9242, type: 2}
   m_sharedMaterial: {fileID: -8547113407242985080, guid: 0cb5f5f9303f7244e8ab6730d66e9242, type: 2}
@@ -15802,7 +15802,7 @@ GameObject:
   - component: {fileID: 1260170999}
   - component: {fileID: 1260170998}
   m_Layer: 5
-  m_Name: PanelLMB
+  m_Name: PanelInstructions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15827,8 +15827,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -380, y: 323}
-  m_SizeDelta: {x: 350, y: 90}
+  m_AnchoredPosition: {x: -410, y: 323}
+  m_SizeDelta: {x: 380, y: 90}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1260170998
 MonoBehaviour:
@@ -20703,7 +20703,7 @@ GameObject:
   - component: {fileID: 2043753841}
   - component: {fileID: 2043753840}
   m_Layer: 5
-  m_Name: TextLMB
+  m_Name: TextInstructions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20751,7 +20751,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Move: WSAD
 
-    Select: Left Mouse Button'
+    Select/Abduct: Left Mouse Button'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0cb5f5f9303f7244e8ab6730d66e9242, type: 2}
   m_sharedMaterial: {fileID: -8547113407242985080, guid: 0cb5f5f9303f7244e8ab6730d66e9242, type: 2}

@@ -8,6 +8,7 @@ public class SpawnManager : MonoBehaviour
     // SpawnManager Events
     public static Action<GameObject> AbducteeWinLoseEvent;
     public static Action<int> ActiveAbducteesEvent;
+    public static Action<int> RemainingAbducteesEvent;
 
     // How many Aliens/Humans will be in each pool
     [SerializeField] private int _poolAmount;
@@ -50,6 +51,7 @@ public class SpawnManager : MonoBehaviour
     private int _totalGreyAliensSpawned;
     private int _totalHumansSpawned;
     private int _totalAbducteesSpawned;
+    private int _totalAbducteesLeft;
 
     // To ensure not too many of the same alien type spawn for level 3
     private int _maxAlienTypeCount;
@@ -123,6 +125,8 @@ public class SpawnManager : MonoBehaviour
         _totalAbducteesSpawned = 0;
         _currentLevel.CurrentSpawnRate = _currentLevel.SpawnRateBase;
         _barkTriggered = false;
+        _totalAbducteesLeft = _currentLevel.AmountTotal;
+        RemainingAbducteesEvent?.Invoke(_totalAbducteesLeft); 
     }
 
     // Return all aliens to pool for a reset except Alien that lost the game if applicable
@@ -160,7 +164,9 @@ public class SpawnManager : MonoBehaviour
     void AbductEventHandler()
     {
         _totalAbducteesActive--;
-        ActiveAbducteesEvent?.Invoke(_totalAbducteesActive);  
+        _totalAbducteesLeft--;
+        ActiveAbducteesEvent?.Invoke(_totalAbducteesActive);
+        RemainingAbducteesEvent?.Invoke(_totalAbducteesLeft); 
 
         // Make sure no abductees are active
         if (_totalAbducteesActive == 0)
