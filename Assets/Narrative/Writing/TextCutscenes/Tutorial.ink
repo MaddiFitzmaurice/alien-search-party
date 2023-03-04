@@ -32,7 +32,7 @@ Why our kind would be so foolish as to ally with yours I will never understand.
 
 If that’s your opinion, then let us finish this mission and be finally rid of each other’s company.
 
-Steer the craft (arrow keys or WSAD). I will prepare the Tractor Beam (toggle with left mouse button). We must abduct 5 Humans (spacebar to start).
+Steer the craft (WSAD). I will prepare the Tractor Beam (toggle with left mouse button). We must abduct 5 Humans (spacebar to start).
 
 
 
